@@ -1,0 +1,16 @@
+{
+  "id": "thread-sample-0002",
+  "messages": [
+    {
+      "id": "msg-0011",
+      "threadId": "thread-sample-0002",
+      "date": "2026-08-20T04:32:48Z",
+      "sender": "logistics@example-distributor.co.jp",
+      "toRecipients": ["taku_yamashita@mxvideo.jp"],
+      "ccRecipients": [],
+      "subject": "Payment for PO SAMPLE-0451",
+      "labelIds": ["INBOX", "UNREAD"],
+      "plaintextBody": "Hi Taku-san,\n\nPlease take a look at the attached payment slip. We will pay by\ninternational bank remittance on August 24th. Could you please confirm\nthe shipment schedule for PO SAMPLE-0451 after the remittance?\n\nBest regards,\nToshiko\n\n2026年8月19日 山下 卓 <taku_yamashita@mxvideo.jp>:\n> お世話になっております。\n> 発注書を受領いたしました。"
+    }
+  ]
+}

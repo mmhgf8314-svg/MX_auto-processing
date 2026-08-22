@@ -1,0 +1,11 @@
+{
+  "id": "msg-0021",
+  "threadId": "thread-sample-0003",
+  "date": "2026-08-20T19:35:12Z",
+  "sender": "video@matrox.com",
+  "toRecipients": ["taku_yamashita@mxvideo.jp"],
+  "ccRecipients": [],
+  "subject": "How flexible is your operator setup?",
+  "labelIds": ["INBOX", "UNREAD"],
+  "plaintextBody": "See flexible operator access and control in action at IBC 2026."
+}

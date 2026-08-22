@@ -1,0 +1,38 @@
+{
+  "id": "thread-sample-0001",
+  "messages": [
+    {
+      "id": "msg-0001",
+      "threadId": "thread-sample-0001",
+      "date": "2026-08-18T02:11:00Z",
+      "sender": "sales@example-distributor.co.jp",
+      "toRecipients": ["taku_yamashita@mxvideo.jp"],
+      "ccRecipients": [],
+      "subject": "X.mio5 の納期についてご確認",
+      "labelIds": ["INBOX"],
+      "plaintextBody": "山下様\n\nお世話になっております。サンプル商事の田中でございます。\n\n先日ご相談した X.mio5 2枚の件ですが、\nお客様より納期のご確認をいただいております。\n出荷可能時期をご教示いただけますでしょうか。\n\nよろしくお願い申し上げます。\n田中"
+    },
+    {
+      "id": "msg-0002",
+      "threadId": "thread-sample-0001",
+      "date": "2026-08-19T01:02:00Z",
+      "sender": "taku_yamashita@mxvideo.jp",
+      "toRecipients": ["ltang@matrox.com"],
+      "ccRecipients": ["sales@example-distributor.co.jp"],
+      "subject": "RE: X.mio5 lead time",
+      "labelIds": ["SENT"],
+      "plaintextBody": "Hi Lan,\n\nCould you confirm the lead time for 2x X.mio5 for this customer?\n\nBest regards,\nTaku"
+    },
+    {
+      "id": "msg-0003",
+      "threadId": "thread-sample-0001",
+      "date": "2026-08-21T15:03:19Z",
+      "sender": "ltang@matrox.com",
+      "toRecipients": ["taku_yamashita@mxvideo.jp"],
+      "ccRecipients": [],
+      "subject": "RE: X.mio5 lead time",
+      "labelIds": ["INBOX", "UNREAD"],
+      "plaintextBody": "Hi Taku,\n\nStock is not an issue at our head office in Canada, or we can have it\navailable at our Hong Kong warehouse within 10-12 business days.\nKindly confirm which shipping point the customer prefers so I can\nrelease the order.\n\nThanks\nLan"
+    }
+  ]
+}

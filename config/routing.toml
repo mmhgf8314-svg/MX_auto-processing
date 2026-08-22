@@ -1,0 +1,121 @@
+# ---------------------------------------------------------------------------
+# Routing rules for the taku_yamashita@mxvideo.jp mail triage workflow.
+#
+# Everything the triage step needs to decide *who* an email is from, *what
+# language* to answer in, and *whether* a companion draft to the other side is
+# warranted lives here. Edit this file rather than the Python.
+# ---------------------------------------------------------------------------
+
+schema_version = 1
+
+[owner]
+name_en   = "Taku Yamashita"
+name_ja   = "山下 卓"
+mailbox   = "taku_yamashita@mxvideo.jp"
+aliases   = ["taku_yamashita@matrox.com"]
+role_en   = "Matrox Japan representative"
+role_ja   = "Matrox 日本担当"
+
+[sides]
+# Addresses on these domains are the "Matrox side" (head office / internal).
+#
+# NOTE: the original specification said "matrox.jp". Head-office mail actually
+# arrives from matrox.com, and the owner's own alias is on mxvideo.jp, so all
+# three are treated as the Matrox side.
+matrox = ["matrox.com", "matrox.jp", "mxvideo.jp"]
+
+# ---------------------------------------------------------------------------
+# Senders that never get a draft.
+# ---------------------------------------------------------------------------
+
+[ignore]
+# Bulk / newsletter / notification senders. Matched on the full address.
+addresses = [
+  "video@matrox.com",
+  "newsletter@lolipop.jp",
+  "service@sansan.com",
+  "hello@globalm.media",
+]
+# Matched as a substring of the local part.
+localpart_patterns = ["noreply", "no-reply", "donotreply", "do-not-reply", "mailer-daemon", "postmaster", "bounce"]
+# Whole domains that are out of scope for business drafting (private matters).
+domains = ["docomo.ne.jp", "tokyu-hl.jp"]
+# Subject markers for calendar/system traffic that needs no prose reply.
+subject_patterns = ["Canceled:", "Accepted:", "Declined:", "Invitation:", "自動返信", "Automatic reply"]
+
+# ---------------------------------------------------------------------------
+# Known counterparties. `default_language` is the language normally used with
+# them; it is overridden whenever the thread itself shows otherwise.
+# ---------------------------------------------------------------------------
+
+[[parties]]
+domain           = "j-material.jp"
+name_en          = "Japan Material Co., Ltd."
+name_ja          = "ジャパンマテリアル株式会社"
+kind             = "distributor"
+default_language = "ja"
+notes            = "Japanese distributor. Sales/logistics staff correspond with Matrox head office directly in English; engineering threads are in Japanese."
+
+[[parties]]
+domain           = "golter.jp"
+name_en          = "Golter (Andrew Hodinott)"
+name_ja          = "ゴルター（ホディノット・アンドルー）"
+kind             = "partner"
+default_language = "ja"
+notes            = "Bilingual field/technical support in Japan. Often the technical bridge between customers and Matrox engineering."
+
+[[parties]]
+domain           = "nikkotelecom.co.jp"
+name_en          = "Nikko Telecom"
+name_ja          = "日興テレコム"
+kind             = "customer"
+default_language = "ja"
+
+[[parties]]
+domain           = "trafficsim.co.jp"
+name_en          = "Traffic Sim Co., Ltd."
+name_ja          = "株式会社トラフィック・シム"
+kind             = "customer"
+default_language = "ja"
+
+[[parties]]
+domain           = "for-a.co.jp"
+name_en          = "FOR-A Company Limited"
+name_ja          = "株式会社朋栄"
+kind             = "customer"
+default_language = "ja"
+
+[[parties]]
+domain           = "sptvjsat.com"
+name_en          = "SKY Perfect JSAT"
+name_ja          = "スカパーJSAT株式会社"
+kind             = "customer"
+default_language = "ja"
+
+[[parties]]
+domain           = "h-and-m-software.com"
+name_en          = "H&M Software"
+name_ja          = "H&M Software"
+kind             = "customer"
+default_language = "ja"
+
+# ---------------------------------------------------------------------------
+# Signals used to suggest whether a companion draft to the *other* side is
+# needed ("必要に応じて"). These only produce a suggestion; the drafting agent
+# makes the final call after reading the thread.
+# ---------------------------------------------------------------------------
+
+[companion_signals]
+# A question or request that one side cannot answer without the other.
+handoff = [
+  "PO", "purchase order", "quotation", "quote", "invoice", "lead time", "ETA",
+  "stock", "availability", "ship", "shipment", "tracking", "RMA", "firmware",
+  "hotfix", "driver", "SDK", "roadmap", "EOL", "escalat", "case ", "workaround",
+  "見積", "納期", "在庫", "発注", "注文", "出荷", "請求", "不具合", "障害",
+  "問い合わせ", "問合せ", "ご質問", "検証", "評価機", "貸出", "デモ", "仕様",
+]
+# Scheduling / logistics that usually stays on one side only.
+low_signal = [
+  "meeting", "calendar", "reschedule", "webinar", "newsletter",
+  "日程", "会議室", "打ち合わせ", "ご案内",
+]

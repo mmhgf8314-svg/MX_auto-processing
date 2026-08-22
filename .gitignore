@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+# Never commit real mail pulled down for triage.
+/scratch/
+*.thread.json
