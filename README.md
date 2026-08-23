@@ -137,12 +137,13 @@ Gmail の実際のやり取りから最終接点日を自動更新して、
 
 | | MX（Matrox） | VRi（Visual Research） |
 | --- | --- | --- |
-| 製品 | OEM 向け製品 / EU 向け製品 の2種 | Karisma Illuzon / Karisma CG3 / Karisma Studio |
+| 製品 | OEM 向け製品（ORIGIN / ORIGIN Fabric / DSX・LE / Xmio / M264 / SDK）と EU 向け製品（Monarch EDGE / ConvertIP / AVIO2・IPMX / VION）の2種 | Karisma Illuzon / Karisma CG3 / Karisma Studio |
 | 市場 | 放送 または 医療 | 放送 |
 | 顧客 | SI（販社）/ EU（エンドユーザー）/ OEM | SI（販社）/ EU（エンドユーザー） |
 | 商流 | JM→販社→EU、JM→OEM、JM→EU | JM→販社→EU、JM→EU |
 
-いずれも起点は JM（ジャパンマテリアル）。
+いずれも起点は JM（ジャパンマテリアル）。OEM と SI を兼ねる先（朋栄、NEC など）があるため
+顧客区分は複数選択。OEM の顧客が EU 向け製品を買うこともあるので、製品区分も複数付く。
 
 ### ビュー
 
