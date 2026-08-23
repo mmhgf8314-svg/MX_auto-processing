@@ -7,7 +7,7 @@
  */
 
 var CONFIG = {
-  // Notion CRM データベース（MX_CRM 顧客・接点管理）
+  // Notion CRM データベース（MX / VRi CRM 顧客・接点管理）
   NOTION_DATABASE_ID: 'dd6c84a357164dd9a7075358a4cff9a5',
   NOTION_VERSION: '2022-06-28',
 
@@ -40,7 +40,11 @@ var CONFIG = {
   // Notion のプロパティ名（Notion 側で列名を変えたらここも変える）
   PROP: {
     company: '会社名',
-    segment: '区分',
+    maker: 'メーカー',          // MX / VRi（別メーカー）
+    segment: '顧客区分',        // SI（販社）/ EU（エンドユーザー）/ OEM / JM / メーカー・ベンダー
+    market: '市場',             // 放送 / 医療
+    tradeFlow: '商流',          // JM→販社→EU / JM→OEM / JM→EU
+    productClass: '製品区分',   // MX_OEM向け製品 / MX_EU向け製品 / VRi製品
     status: 'ステータス',
     priority: '優先度',
     person: '主担当者',
