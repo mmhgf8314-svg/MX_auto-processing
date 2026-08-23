@@ -173,6 +173,7 @@ src/appsscript.json  マニフェスト
 
 - セットアップ手順: [docs/CRM-setup.md](docs/CRM-setup.md)
 - 日々の運用ルール: [docs/CRM運用ガイド.md](docs/CRM運用ガイド.md)
+- Apps Script を使わず Claude の定期実行（Routine）で回す場合: [docs/CRM定期実行プロンプト.md](docs/CRM定期実行プロンプト.md)
 
 ### 自動更新の元ネタ
 
