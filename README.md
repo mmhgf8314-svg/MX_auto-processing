@@ -124,7 +124,7 @@ python3 -m unittest discover -s tests -v
 
 # 2. CRM ・ 月次フォローアップ
 
-MX（Matrox）と VRi（Visual Research）の顧客・パートナーについて「誰に・いつ・
+MX（Matrox）・VRi（Visual Research）・GM（GlobalM）の顧客・パートナーについて「誰に・いつ・
 どのようなアクションをしたか・今どうなっているか」を Notion の台帳で一元管理し、
 Gmail の実際のやり取りから最終接点日を自動更新して、
 **1ヶ月に一度すべての取引先をフォローアップする**。
@@ -133,14 +133,17 @@ Gmail の実際のやり取りから最終接点日を自動更新して、
 
 ### 前提となる商売の形
 
-**MX と VRi は別メーカー**なので、台帳では `メーカー` 列で区別する（両方扱う先は両方付ける）。
+**MX・VRi・GM はそれぞれ別メーカー**なので、台帳では `メーカー` 列で区別する（複数扱う先は複数付ける）。
 
-| | MX（Matrox） | VRi（Visual Research） |
-| --- | --- | --- |
-| 製品 | OEM 向け製品（ORIGIN / ORIGIN Fabric / DSX・LE / Xmio / M264 / SDK）と EU 向け製品（Monarch EDGE / ConvertIP / AVIO2・IPMX / VION）の2種 | Karisma Illuzon / Karisma CG3 / Karisma Studio |
-| 市場 | 放送 または 医療 | 放送 |
-| 顧客 | SI（販社）/ EU（エンドユーザー）/ OEM | SI（販社）/ EU（エンドユーザー） |
-| 商流 | JM→販社→EU、JM→OEM、JM→EU | JM→販社→EU、JM→EU |
+| | MX（Matrox） | VRi（Visual Research） | GM（GlobalM） |
+| --- | --- | --- | --- |
+| 製品 | OEM 向け製品（ORIGIN / ORIGIN Fabric / DSX・LE / Xmio / M264 / SDK）と EU 向け製品（Monarch EDGE / ConvertIP / AVIO2・IPMX / VION）の2種 | Karisma Illuzon / Karisma CG3 / Karisma Studio | GMX Cloud |
+| 市場 | 放送 または 医療 | 放送 | 放送 |
+| 顧客 | SI（販社）/ EU（エンドユーザー）/ OEM | SI（販社）/ EU（エンドユーザー） | EU（エンドユーザー）/ SI（販社） |
+| 商流 | JM→販社→EU、JM→OEM、JM→EU | JM→販社→EU、JM→EU | — |
+
+GM の日本の商談先は KDDI / ネクシオン / スカパーJSAT / 日本テレビ / フジテレビ / NHK。
+いずれも MX の顧客でもあるため、同じ行に `メーカー = MX, GM` を付けている。
 
 いずれも起点は JM（ジャパンマテリアル）。OEM と SI を兼ねる先（朋栄、NEC など）があるため
 顧客区分は複数選択。OEM の顧客が EU 向け製品を買うこともあるので、製品区分も複数付く。
@@ -154,6 +157,7 @@ Gmail の実際のやり取りから最終接点日を自動更新して、
 | ステータス別ボード | 商談の進み具合を俯瞰する |
 | 顧客区分別（SI / EU / OEM） | 商流ごとに誰を抱えているかを見る |
 | VRi 案件 | VRi のみを抜き出す |
+| GM（GlobalM）案件 | GlobalM 案件のみを抜き出す |
 | フォロー予定カレンダー | 「次回フォロー予定日」を月カレンダーで見る |
 | ⭐ 重点顧客（A） | 優先度 A だけを追う |
 
