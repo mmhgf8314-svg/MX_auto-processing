@@ -104,3 +104,95 @@ function truncate_(text, max) {
   text = String(text || '');
   return text.length > max ? text.slice(0, max - 1) + '…' : text;
 }
+
+/**
+ * 直近に更新された Notion ページを検索する。議事録の取り込みに使う。
+ * インテグレーションが接続されているページ・DBだけが返る。
+ */
+function searchRecentNotionPages(sinceIso, maxPages) {
+  var results = [];
+  var cursor = null;
+  var stop = false;
+
+  do {
+    var payload = {
+      page_size: 100,
+      filter: { property: 'object', value: 'page' },
+      sort: { direction: 'descending', timestamp: 'last_edited_time' }
+    };
+    if (cursor) payload.start_cursor = cursor;
+
+    var res = notionFetch_('/search', 'post', payload);
+    for (var i = 0; i < res.results.length; i++) {
+      var page = res.results[i];
+      if (page.last_edited_time < sinceIso) { stop = true; break; }
+      if (page.parent && page.parent.database_id &&
+          page.parent.database_id.replace(/-/g, '') === CONFIG.NOTION_DATABASE_ID.replace(/-/g, '')) {
+        continue; // CRM 自身の行は対象外
+      }
+      results.push({
+        id: page.id,
+        url: page.url,
+        title: pageTitle_(page),
+        created: (page.created_time || '').slice(0, 10),
+        edited: (page.last_edited_time || '').slice(0, 10)
+      });
+      if (results.length >= (maxPages || 200)) { stop = true; break; }
+    }
+    cursor = (!stop && res.has_more) ? res.next_cursor : null;
+  } while (cursor);
+
+  return results;
+}
+
+/** 検索結果のページからタイトル文字列を取り出す。 */
+function pageTitle_(page) {
+  var props = page.properties || {};
+  for (var key in props) {
+    var p = props[key];
+    if (p && p.type === 'title' && p.title && p.title.length) {
+      return p.title.map(function (t) { return t.plain_text; }).join('');
+    }
+  }
+  return '(無題)';
+}
+
+/**
+ * ページ直下のトグル見出しを集める。
+ * MX ページのようにトグルの中へ議事録をぶら下げている場合に使う。
+ */
+function fetchToggleHeadings(blockId, maxDepth) {
+  var out = [];
+  collectToggles_(blockId, maxDepth === undefined ? 2 : maxDepth, out);
+  return out;
+}
+
+function collectToggles_(blockId, depth, out) {
+  if (depth < 0) return;
+  var cursor = null;
+  do {
+    var path = '/blocks/' + blockId.replace(/-/g, '') + '/children?page_size=100' +
+      (cursor ? '&start_cursor=' + cursor : '');
+    var res = notionFetch_(path, 'get', null);
+
+    res.results.forEach(function (block) {
+      if (block.type === 'toggle' && block.toggle && block.toggle.rich_text) {
+        var text = block.toggle.rich_text.map(function (t) { return t.plain_text; }).join('');
+        if (text) {
+          out.push({
+            id: block.id,
+            title: text,
+            created: (block.created_time || '').slice(0, 10),
+            edited: (block.last_edited_time || '').slice(0, 10),
+            url: null
+          });
+        }
+      }
+      if (block.has_children && depth > 0 && block.type !== 'toggle') {
+        collectToggles_(block.id, depth - 1, out);
+      }
+    });
+
+    cursor = res.has_more ? res.next_cursor : null;
+  } while (cursor);
+}

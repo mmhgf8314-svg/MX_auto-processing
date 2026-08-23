@@ -163,8 +163,9 @@ Gmail の実際のやり取りから最終接点日を自動更新して、
 src/Config.gs        設定（Notion DB ID、自分のアドレス、社内ドメイン、フォロー間隔）
 src/Notion.gs        Notion API の読み書き
 src/GmailScan.gs     Gmail を走査して最終接点日・最終アクションを更新
+src/NotionScan.gs    Notion の議事録を走査して、会議・訪問の接点を取り込む
 src/Followup.gs      月次フォローアップ（ダイジェスト送信＋下書き作成）
-src/Triggers.gs      トリガー設置と、書き込みなしの動作確認 dryRunSync
+src/Triggers.gs      毎日の同期 syncDaily、トリガー設置、書き込みなしの動作確認
 src/appsscript.json  マニフェスト
 ```
 
@@ -172,6 +173,16 @@ src/appsscript.json  マニフェスト
 
 - セットアップ手順: [docs/CRM-setup.md](docs/CRM-setup.md)
 - 日々の運用ルール: [docs/CRM運用ガイド.md](docs/CRM運用ガイド.md)
+
+### 自動更新の元ネタ
+
+| 元ネタ | 拾うもの | 最終アクションの書き出し |
+| --- | --- | --- |
+| Gmail | メールのやり取り | `[自動更新]` |
+| Notion の議事録 | オンライン会議・訪問の記録 | `[議事録]` |
+
+毎朝 07 時台に Gmail → 議事録 の順で走り、同じ会社に両方あれば**日付が新しい方が残る**。
+手で入れた日付の方が新しい場合は、どちらも上書きしない。
 
 自動同期が触るのは **最終接点日 / 最終アクション / 次回フォロー予定日** の3つだけ。
 ステータスと「次のアクション」は人が判断して書く欄なので、スクリプトは変更しない。

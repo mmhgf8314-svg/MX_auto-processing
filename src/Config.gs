@@ -28,6 +28,12 @@ var CONFIG = {
   // Gmail を遡って検索する日数
   LOOKBACK_DAYS: 400,
 
+  // Notion の議事録を遡って見る日数
+  NOTION_LOOKBACK_DAYS: 120,
+
+  // 議事録トグルがぶら下がっている親ページ（Business > MX）。空にすればトグル取り込みを止める
+  NOTION_MEETING_PARENT_PAGE_ID: '18a50a348aa847c68de8a7577c505e8a',
+
   // 何日接点がなければフォロー対象とするか
   FOLLOWUP_INTERVAL_DAYS: 30,
 
@@ -55,6 +61,48 @@ var CONFIG = {
     nextFollowUp: '次回フォロー予定日',
     channels: '接点チャネル',
     note: 'メモ'
+  },
+
+  /**
+   * 議事録のタイトルと CRM の行を突き合わせるための別名。
+   * 会社名そのものは自動で使われるので、議事録で別の書き方をされる先だけ書けばよい。
+   * 一致は「いちばん長い別名が勝つ」ので、Sony Medical は ソニーメディカル に付く。
+   */
+  MEETING_ALIASES: {
+    'ソニー（放送 / SMOJ）': ['ソニー', 'Sony', 'SMOJ', 'ソニーマーケティング'],
+    'ソニーメディカル': ['Sony Medical', 'ソニーメディカル', 'ソニー メディカル'],
+    'パナソニック（Panasonic Connect）': ['パナソニック', 'Panasonic', 'KAIROS'],
+    'ジャパンマテリアル（JM）': ['ジャパンマテリアル', 'Japan Material', 'JM'],
+    'QVCジャパン': ['QVC', 'QCV'],
+    '伊藤忠ケーブルシステム': ['伊藤忠', 'ICS'],
+    '朋栄（FOR-A）': ['朋栄', 'FOR-A', 'For-A', 'FORA'],
+    '日本テレビ': ['日本テレビ', '日テレ', 'NTV'],
+    '日テレWANDS': ['WANDS'],
+    '毎日放送（MBS）': ['MBS', '毎日放送'],
+    '三友': ['三友'],
+    'アクワイア': ['アクワイア', 'Acquire'],
+    'サイバネットシステム': ['サイバネット', 'EndoBRAIN', '内視鏡'],
+    'テクノネット': ['テクノネット'],
+    'ネクシオン（Nexion）': ['ネクシオン', 'Nexion'],
+    'ブロードデザイン': ['ブロードデザイン', 'Broad Design'],
+    'メイコーエレクトロニクス（meiko-elec）': ['メイコー'],
+    'グラスバレー（Grass Valley）': ['グラスバレー', 'Grass Valley', 'GrassValley'],
+    'Taenam（韓国）': ['Taenam', 'テナム'],
+    'VRi（Visual Research・韓国）': ['VRi', 'VRI', 'Visual Research', 'Karisma', 'Kビジョン', 'KVISION', 'Kvision'],
+    'ティアック（TEAC）': ['TEAC', 'ティアック'],
+    'TVS NEXT（tvs.co.jp）': ['TVsNext', 'TVS NEXT', 'TVS'],
+    'トラフィックシム': ['トラフィックシム'],
+    '7th dimensions': ['7th dimensions', '7th'],
+    'デジデリック': ['デジデリック'],
+    'スカパーJSAT': ['スカパー', 'JSAT'],
+    '東京サウンド・プロダクション（TSP）': ['東京サウンド', 'TSP'],
+    'J:COM（ジュピターテレコム）': ['J:COM', 'JCOM', 'ジュピターテレコム'],
+    'ヤマハミュージックジャパン': ['ヤマハ', 'Yamaha'],
+    'レスターグループ（restargp）': ['レスター'],
+    'カリーナシステム': ['カリーナ'],
+    'SC-NET（sc-net.ne.jp）': ['SC-NET', 'エスシーネット'],
+    'mpeg.co.jp（竹松 様）': [],
+    'GlobalM': ['GlobalM', 'Global M']
   }
 };
 

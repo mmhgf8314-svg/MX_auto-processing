@@ -8,9 +8,11 @@ Google Apps Script で Gmail → Notion CRM の自動同期と月次フォロー
 ## 1. Notion インテグレーションを作る
 
 1. <https://www.notion.so/my-integrations> で内部インテグレーションを作成し、トークンを控える
-2. Notion で `MX_CRM 顧客・接点管理` を開き、`···` > `接続` から作ったインテグレーションを追加する
+2. Notion で `MX / VRi CRM 顧客・接点管理` を開き、`···` > `接続` から作ったインテグレーションを追加する
+3. **`Business > MX` ページにも同じインテグレーションを接続する**
 
-この接続を忘れると API からデータベースが見えず、404 になる。
+3 を忘れると議事録が1件も読めない。CRM だけ接続してもメールの同期しか動かないので、
+両方に接続すること。接続を忘れると API からは見えず 404 になる。
 
 ## 2. Apps Script プロジェクトを作る
 
@@ -33,10 +35,12 @@ Google Apps Script で Gmail → Notion CRM の自動同期と月次フォロー
 
 ## 4. 動作確認する
 
-1. `dryRunSync` を実行する。Notion には書き込まず、実行ログに
-   「どの行がどう更新される予定か」だけを出す
-2. 意図どおりなら `syncLastContactFromGmail` を1回手で実行する
-3. `sendFollowupDigestOnly` を実行して、ダイジェストメールの体裁を確認する
+1. `dryRunSync` を実行する。Notion には書き込まず、Gmail から
+   「どの行がどう更新される予定か」だけを実行ログに出す
+2. `dryRunNotionScan` を実行する。こちらは議事録側の突き合わせ結果を出す。
+   「（未一致）」が並ぶ議事録は、`Config.gs` の `MEETING_ALIASES` に別名を足すと拾えるようになる
+3. 意図どおりなら `syncDaily` を1回手で実行する（メールと議事録の両方を同期する）
+4. `sendFollowupDigestOnly` を実行して、ダイジェストメールの体裁を確認する
 
 初回実行時に Gmail と Notion へのアクセス許可を求められる。
 
@@ -46,7 +50,7 @@ Google Apps Script で Gmail → Notion CRM の自動同期と月次フォロー
 
 | タイミング | 関数 | 内容 |
 | --- | --- | --- |
-| 毎日 07 時台 | `syncLastContactFromGmail` | Gmail から最終接点日を同期 |
+| 毎日 07 時台 | `syncDaily` | Gmail → Notion 議事録 の順に最終接点日を同期 |
 | 毎月 1 日 08 時台 | `runMonthlyFollowup` | ダイジェスト送信＋A/B の下書き作成 |
 
 現在のトリガーは `listTriggers`、外すなら `removeTriggers`。
@@ -60,6 +64,9 @@ Google Apps Script で Gmail → Notion CRM の自動同期と月次フォロー
 | `MY_ADDRESSES` | 送信者判定に使う自分のアドレス。すべて小文字で書く |
 | `INTERNAL_DOMAINS` | 接点としてカウントしないドメイン（Matrox 本社など） |
 | `LOOKBACK_DAYS` | Gmail を遡る日数 |
+| `NOTION_LOOKBACK_DAYS` | Notion の議事録を遡る日数 |
+| `NOTION_MEETING_PARENT_PAGE_ID` | 議事録トグルがぶら下がっている親ページ（Business > MX）。空にするとトグル取り込みを止める |
+| `MEETING_ALIASES` | 議事録タイトルと CRM の行を突き合わせる別名。会社名は自動で使われるので、議事録で別の書き方をされる先だけ書く |
 | `FOLLOWUP_INTERVAL_DAYS` | 何日接点がなければフォロー対象にするか（既定 30） |
 | `DIGEST_TO` | 月次ダイジェストの送信先。空なら実行ユーザー自身 |
 | `DRAFT_PRIORITIES` | 下書きを自動作成する優先度（既定 A・B） |
@@ -73,4 +80,7 @@ Google Apps Script で Gmail → Notion CRM の自動同期と月次フォロー
 | Notion API が 404 | データベースにインテグレーションを接続していない |
 | Notion API が 429 | レート制限。`Utilities.sleep` の値を増やす |
 | ある行だけ更新されない | メール欄が空か、`INTERNAL_DOMAINS` に入っている |
+| 議事録が1件も読まれない | `Business > MX` ページにインテグレーションを接続していない |
+| 議事録が特定の会社に紐づかない | `MEETING_ALIASES` に別名がない。`dryRunNotionScan` の「（未一致）」を見て足す |
+| 違う会社の議事録が紐づいた | 別名が短すぎて誤爆している。より長い別名に変える |
 | 日付が戻される | 手入力した日付の方が古い。自動同期は新しい方を採用する |
