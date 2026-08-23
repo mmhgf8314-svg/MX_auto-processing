@@ -109,6 +109,14 @@ mcp__Gmail__create_draft
   body = <the draft>
 ```
 
+### Known limitation: the From address
+
+`create_draft` has no "from" parameter, so every draft is created under the
+account's default sending address rather than `taku_yamashita@mxvideo.jp`.
+Gmail shows the alias picker in the compose window; **say so in your summary
+every time**, because a customer-facing mail leaving from the wrong address is
+worse than a late reply.
+
 ## Step 7 — report back
 
 For each thread handled, one line: subject, who it is from, what you drafted,
