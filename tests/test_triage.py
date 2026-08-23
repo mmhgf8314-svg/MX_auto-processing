@@ -148,6 +148,25 @@ class CustomerJapaneseTests(unittest.TestCase):
         self.assertEqual(result.companion.language, "en")
         self.assertEqual(result.companion.confidence, "suggested")
 
+    def test_fault_report_without_the_word_fuguai_still_flags_a_handoff(self):
+        # Real fault reports describe the symptom rather than saying 不具合,
+        # and that phrasing has to reach Matrox as a companion report.
+        message = Message(
+            sender="dyagi@nikkotelecom.co.jp",
+            subject="hp Z4G6iとMIO5の組み合わせで映像に乱れが出る件",
+            body=(
+                "お世話になっております。\n"
+                "MIO5を入れたところ、映像に乱れが出る症状が発生しています。\n"
+                "テストに使用したドライバーは 10.5.100.1781 です。\n"
+                "この現象について回避方法などわかりますでしょうか？"
+            ),
+            to=["taku_yamashita@mxvideo.jp"],
+        )
+        result = classify(message, CFG)
+        self.assertEqual(result.companion.confidence, "suggested")
+        self.assertEqual(result.companion.audience, "matrox")
+        self.assertEqual(result.companion.language, "en")
+
     def test_party_is_resolved(self):
         result = classify(self.message, CFG)
         self.assertIsNotNone(result.party)

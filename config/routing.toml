@@ -113,6 +113,10 @@ handoff = [
   "hotfix", "driver", "SDK", "roadmap", "EOL", "escalat", "case ", "workaround",
   "見積", "納期", "在庫", "発注", "注文", "出荷", "請求", "不具合", "障害",
   "問い合わせ", "問合せ", "ご質問", "検証", "評価機", "貸出", "デモ", "仕様",
+  # A fault report rarely uses the word 不具合. Live mail describes the fault
+  # instead -- 症状 / 現象 / 映像に乱れ -- and asks for a 回避方法.
+  "症状", "現象", "回避", "再現", "ドライバー", "バージョン",
+  "symptom", "reproduce", "validated", "workstation",
 ]
 # Scheduling / logistics that usually stays on one side only.
 low_signal = [
