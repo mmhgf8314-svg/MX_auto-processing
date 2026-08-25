@@ -29,6 +29,47 @@
 
 ニュースレター、no-reply、カレンダー通知、業務外の私信は下書きを作成しません。
 
+## スレッド間の突き合わせ
+
+このメールボックスでは、同じ案件について**日本語スレッド（お客様・代理店）**と
+**英語スレッド（Matrox のサポートケース）**が並行して動きます。両者をつないで
+いるのは山下さんの手作業だけで、実際にここで情報が落ちます。
+
+> お客様が日本語スレッドで「ベータ版で再現しました、ログは取得済みです」と回答
+> → 誰も英語側へ渡さない → Matrox は英語スレッドで催促を続ける → ケースが止まる
+
+1通ずつ見る仕分けでは、これは検出できません。どのスレッドも単体では「返信済み」
+に見えるためです。そこで、案件ごとにスレッドを束ねて**未転送**を検出します。
+
+```bash
+python3 -m mxmail.cli linkage /tmp/threads/*.json --format text
+```
+
+出力例:
+
+```
+[case:00092203]  JP  ->  MATROX   17 days old
+  news    : 2026-08-07T12:25:03Z  engineer@example-enduser.co.jp
+  subject : Re: 【TBS統合FB】ConvertIP DSSのST2022-7の動作に関する問合せ
+  waiting : 2 message(s), latest 2026-08-08T07:42:37Z
+  relayed : 2026-08-06T13:07:00Z
+```
+
+方向ごとに、**相手側が言ったことのうち、まだ渡していない最も古いもの**を起点に
+日数を数えます。新しい催促が来ても、古い未転送が「新しく」見えることはありません。
+
+〇スレッドの束ね方
+PO番号やケース番号が両側に出ていれば自動で束ねます。ただし日本語側の件名は
+【TBS統合FB】、英語側は Case 00092203 のように**共通の識別子がない**ことが多く、
+その場合は `config/routing.toml` の `[[cases]]` に別名を1度だけ登録します。
+
+```toml
+[[cases]]
+id      = "00092203"
+name    = "NEC/TBS CIP-DSS SDI-OUT interruption after switch power-on"
+aliases = ["00092203", "BHov16dNMeW43s5KmUyu2js", "TBS統合FB"]
+```
+
 ## 構成
 
 ```
@@ -36,11 +77,12 @@
   SKILL.md                      ワークフロー本体
   references/style-guide.md     日英それぞれの文体・定型・作例
   references/parties.md         相手先の役割と注意点
-config/routing.toml             ドメイン判定・除外リスト・キーワード
+config/routing.toml             ドメイン判定・除外リスト・キーワード・案件登録
 mxmail/triage.py                仕分けロジック（言語判定・振り分け）
+mxmail/linkage.py               スレッド間の突き合わせ・未転送検出
 mxmail/cli.py                   コマンドライン
 samples/                        テスト用のサンプルメール（すべて架空）
-tests/test_triage.py            テスト
+tests/                          テスト
 ```
 
 仕分けの機械的な部分（誰から来たか・何語か・もう一方への下書きが要りそうか）は
@@ -89,6 +131,7 @@ also    : suggested companion draft to customer in JA
 - `[ignore]` — 下書きを作らない差出人・ドメイン・件名パターン
 - `[[parties]]` — 既知の相手先（会社名・区分・通常の使用言語）
 - `[companion_signals]` — もう一方への下書きが必要そうかを示すキーワード
+- `[[cases]]` — 日英で名前が違う案件の別名登録（スレッド突き合わせ用）
 
 > `[sides] matrox` には `matrox.com` と `matrox.jp` の両方を入れてあります。
 > 本社からのメールは実際には `@matrox.com` で届くためです。

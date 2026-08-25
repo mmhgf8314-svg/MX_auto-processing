@@ -55,6 +55,32 @@ Kana is treated as decisive because kana only appears when someone is actually
 writing Japanese. Kanji alone is not: English mail from head office routinely
 carries Japanese names and part numbers in quoted signatures.
 
+## Why linkage is a separate pass
+
+Triage answers "what do I do with this message". It cannot answer "what has
+fallen between the two conversations", because that question is not about a
+message at all -- it is about the absence of one.
+
+The failure it catches is specific and it has happened: an end customer replied
+on the Japanese thread that they had reproduced a fault on a beta build and had
+captured the logs; head office, on the English case thread, asked twice for
+exactly those logs plus a workflow diagram and reproduction steps; nobody
+carried either side across, and the case sat for two and a half weeks with both
+sides believing they were waiting on the other.
+
+Two design points fall out of that case:
+
+- **Age the gap from when it opened.** Head office chased on day 1, day 5 and
+  day 18. Anchoring on the newest message makes an eighteen-day-old gap look
+  one day old, which is exactly backwards -- the newest message is a symptom of
+  the gap, not its start.
+- **Identity has to be declared, not inferred.** The Japanese thread and the
+  English thread of that case share no string: one is titled after the project,
+  the other carries a support case number and a Salesforce token. No amount of
+  cleverness links them; `[[cases]]` does, in three lines. Threads that do
+  share a PO or case number still link on their own, so the register only fills
+  in where the two sides genuinely disagree on the name.
+
 ## Running it on a schedule
 
 The workflow is interactive by design — it produces drafts a human then reads.

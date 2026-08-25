@@ -42,7 +42,35 @@ repository root.
 `action: skip` means newsletters, calendar notices, no-reply senders and the
 owner's private (non-Matrox) mail. Skip them silently.
 
-## Step 3 — decide the two languages
+## Step 3 — check for dropped handoffs
+
+Triage reads one message at a time, and a dropped handoff is invisible that
+way: every thread looks answered on its own. What goes missing is the crossing
+between them — a customer answers on the Japanese thread, head office keeps
+asking on the English case thread, and neither learns of the other.
+
+So for any live case, fetch **both** threads and run:
+
+```bash
+python3 -m mxmail.cli linkage /tmp/threads/*.json --format text
+```
+
+Pass full `get_thread` output. Search previews only carry the oldest messages
+of a thread, so a thread fetched by search alone looks stale and invents a gap.
+
+It reports, per case and per direction, the oldest thing one side said that the
+owner has not carried to the other, how long it has been waiting, and how many
+messages have piled up behind it. A gap is work: relay it, in that side's
+language, before writing anything else on the case.
+
+The two sides usually share no identifier — the Japanese thread is titled after
+the project (`【TBS統合FB】`), the English one carries a case number and a
+Salesforce token. Threads that quote the same PO or case number link on their
+own; anything else needs one entry under `[[cases]]` in `config/routing.toml`.
+**When you find a case tracked under two names that are not registered, add
+it** — otherwise the next pass misses the same gap.
+
+## Step 4 — decide the two languages
 
 | Who wrote in | Reply to them | Companion draft |
 |---|---|---|
@@ -55,7 +83,7 @@ English, everything about that thread goes English, including the
 customer-facing draft. The triage output reports this as
 `unified_english: true`.
 
-## Step 4 — decide whether the companion draft is really needed
+## Step 5 — decide whether the companion draft is really needed
 
 "必要に応じて" — write it when the thread cannot move without the other side:
 
@@ -73,7 +101,7 @@ in your summary why you left the companion out.
 The triage `confidence` field is a hint from keyword signals, not a verdict.
 Read the thread and overrule it when the thread says otherwise.
 
-## Step 5 — write the drafts
+## Step 6 — write the drafts
 
 Read `references/style-guide.md` before writing the first one. In short:
 
@@ -86,7 +114,7 @@ Read `references/style-guide.md` before writing the first one. In short:
 - Answer every open question in the incoming mail. If one cannot be answered
   yet, say when it will be.
 
-## Step 6 — create the drafts
+## Step 7 — create the drafts
 
 Reply draft, always threaded onto the message being answered:
 
@@ -117,7 +145,7 @@ Gmail shows the alias picker in the compose window; **say so in your summary
 every time**, because a customer-facing mail leaving from the wrong address is
 worse than a late reply.
 
-## Step 7 — report back
+## Step 8 — report back
 
 For each thread handled, one line: subject, who it is from, what you drafted,
 and anything the owner must fill in or verify before sending. List skipped
@@ -138,4 +166,4 @@ without being asked.
 
 - `references/style-guide.md` — tone, openings, closings, signatures, worked examples.
 - `references/parties.md` — who is who on each side.
-- `../../../config/routing.toml` — domains, ignore list, companion signals.
+- `../../../config/routing.toml` — domains, ignore list, companion signals, case register.

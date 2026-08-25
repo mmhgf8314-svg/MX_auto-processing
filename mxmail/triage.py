@@ -94,6 +94,15 @@ class Config:
     parties: tuple[Party, ...]
     handoff_signals: tuple[str, ...]
     low_signals: tuple[str, ...]
+    case_alias_index: dict[str, str]
+    case_names: dict[str, str]
+
+    def case_for_alias(self, alias: str) -> str | None:
+        """Canonical case id for one identifier found in mail, if registered."""
+        return self.case_alias_index.get(alias.strip().lower())
+
+    def case_name(self, case_id: str) -> str:
+        return self.case_names.get(case_id, case_id)
 
     def party_for(self, address: str) -> Party | None:
         domain = domain_of(address)
@@ -136,6 +145,14 @@ def load_config(path: str | Path | None = None) -> Config:
         for p in raw.get("parties", [])
     )
 
+    case_alias_index: dict[str, str] = {}
+    case_names: dict[str, str] = {}
+    for entry in raw.get("cases", []):
+        case_id = str(entry["id"])
+        case_names[case_id] = entry.get("name", case_id)
+        for alias in [case_id, *entry.get("aliases", [])]:
+            case_alias_index[str(alias).strip().lower()] = case_id
+
     return Config(
         owner_mailbox=owner.get("mailbox", "").lower(),
         owner_aliases=tuple(a.lower() for a in owner.get("aliases", [])),
@@ -150,6 +167,8 @@ def load_config(path: str | Path | None = None) -> Config:
         parties=parties,
         handoff_signals=tuple(signals.get("handoff", [])),
         low_signals=tuple(signals.get("low_signal", [])),
+        case_alias_index=case_alias_index,
+        case_names=case_names,
     )
 
 

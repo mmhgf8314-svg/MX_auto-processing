@@ -1,0 +1,38 @@
+{
+  "id": "thread-jp-0001",
+  "messages": [
+    {
+      "id": "jp-msg-01",
+      "threadId": "thread-jp-0001",
+      "date": "2026-07-31T07:04:13Z",
+      "sender": "taku_yamashita@mxvideo.jp",
+      "toRecipients": ["okada@example-distributor.co.jp"],
+      "ccRecipients": ["engineer@example-enduser.co.jp"],
+      "subject": "【TBS統合FB】ConvertIP DSSのST2022-7の動作に関する問合せ",
+      "labelIds": ["SENT"],
+      "plaintextBody": "岡田様\n\nお世話になっております。\nMatroxの山下です。\n\n本件、要因を確認のうえ修正したベータ版をご用意いたしました。\nこちらで動作をご確認いただけますでしょうか。\n\nMatrox・山下"
+    },
+    {
+      "id": "jp-msg-02",
+      "threadId": "thread-jp-0001",
+      "date": "2026-08-07T12:25:03Z",
+      "sender": "engineer@example-enduser.co.jp",
+      "toRecipients": ["okada@example-distributor.co.jp"],
+      "ccRecipients": ["taku_yamashita@mxvideo.jp"],
+      "subject": "Re: 【TBS統合FB】ConvertIP DSSのST2022-7の動作に関する問合せ",
+      "labelIds": ["INBOX"],
+      "plaintextBody": "岡田様\n\nいつもお世話になっております。\n\nベータ版のご提供ありがとうございます。\n頂いたバージョンにて試しましたが、以前と同様の事象が発生しました。\nログは取得しましたが、どのようにお渡しすれば良いでしょうか？\n\nよろしくお願いします。"
+    },
+    {
+      "id": "jp-msg-03",
+      "threadId": "thread-jp-0001",
+      "date": "2026-08-08T07:42:37Z",
+      "sender": "okada@example-distributor.co.jp",
+      "toRecipients": ["engineer@example-enduser.co.jp"],
+      "ccRecipients": ["taku_yamashita@mxvideo.jp"],
+      "subject": "RE: 【TBS統合FB】ConvertIP DSSのST2022-7の動作に関する問合せ",
+      "labelIds": ["INBOX"],
+      "plaintextBody": "ご連絡をいただき、ありがとうございます。\n下記へのアップロードをお願い致します。\nhttps://example.invalid/upload/sample"
+    }
+  ]
+}

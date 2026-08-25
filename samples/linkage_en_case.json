@@ -1,0 +1,38 @@
+{
+  "id": "thread-en-0001",
+  "messages": [
+    {
+      "id": "en-msg-01",
+      "threadId": "thread-en-0001",
+      "date": "2026-08-06T13:07:00Z",
+      "sender": "taku_yamashita@mxvideo.jp",
+      "toRecipients": ["convertipsupport@matrox.com"],
+      "ccRecipients": ["myang@matrox.com"],
+      "subject": "Re: Case 00092203: The CIP-DSS SDI-OUT Interruption After Network Switch Power On [ thread::BHov16dNMeW43s5KmUyu2js:: ]",
+      "labelIds": ["SENT"],
+      "plaintextBody": "Hi Sandy,\n\nThe other customer has completed testing with the beta and confirmed the issue is resolved. We are still waiting for feedback from the end customer on this case.\n\nBest regards,\nTaku"
+    },
+    {
+      "id": "en-msg-02",
+      "threadId": "thread-en-0001",
+      "date": "2026-08-11T17:25:28Z",
+      "sender": "convertipsupport@matrox.com",
+      "toRecipients": ["taku_yamashita@mxvideo.jp"],
+      "ccRecipients": ["myang@matrox.com"],
+      "subject": "Case 00092203: The CIP-DSS SDI-OUT Interruption After Network Switch Power On [ thread::BHov16dNMeW43s5KmUyu2js:: ]",
+      "labelIds": ["INBOX"],
+      "plaintextBody": "Hi Taku-san,\n\nDo you have any updates from the end customer? Besides logs, please have them provide a diagram workflow of their setup and repro steps of their issues.\n\nBest Regards,\nSandy"
+    },
+    {
+      "id": "en-msg-03",
+      "threadId": "thread-en-0001",
+      "date": "2026-08-24T17:58:59Z",
+      "sender": "convertipsupport@matrox.com",
+      "toRecipients": ["taku_yamashita@mxvideo.jp"],
+      "ccRecipients": ["myang@matrox.com"],
+      "subject": "Case 00092203: The CIP-DSS SDI-OUT Interruption After Network Switch Power On [ thread::BHov16dNMeW43s5KmUyu2js:: ]",
+      "labelIds": ["INBOX"],
+      "plaintextBody": "Hi Taku-san,\n\nI'm reaching out to see if you had a chance to look at our previous email.\n\nBest Regards,\nSandy"
+    }
+  ]
+}

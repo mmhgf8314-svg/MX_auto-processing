@@ -123,3 +123,27 @@ low_signal = [
   "meeting", "calendar", "reschedule", "webinar", "newsletter",
   "日程", "会議室", "打ち合わせ", "ご案内",
 ]
+
+# ---------------------------------------------------------------------------
+# Case register.
+#
+# The two sides of a case rarely share an identifier. The Japanese thread is
+# titled after the project -- 【TBS統合FB】 -- while the English thread carries
+# a support case number and a Salesforce token, and neither mentions the other.
+# Nothing can link them automatically, so name the aliases here once and the
+# linkage check will treat those threads as one case.
+#
+# Threads that DO share an identifier (a PO number, a case number quoted on
+# both sides) are matched without an entry here. Add an entry when a case is
+# being tracked under two different names.
+# ---------------------------------------------------------------------------
+
+[[cases]]
+id      = "00092203"
+name    = "NEC/TBS CIP-DSS SDI-OUT interruption after switch power-on"
+aliases = ["00092203", "BHov16dNMeW43s5KmUyu2js", "TBS統合FB"]
+
+[[cases]]
+id      = "00109445"
+name    = "Yamaha PTP / ST 2022-7 operation"
+aliases = ["00109445", "VotyqM2VPNCN7GPb2dvSSDs"]
