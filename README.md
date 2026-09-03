@@ -70,6 +70,45 @@ name    = "NEC/TBS CIP-DSS SDI-OUT interruption after switch power-on"
 aliases = ["00092203", "BHov16dNMeW43s5KmUyu2js", "TBS統合FB"]
 ```
 
+## 返信待ちの巡回
+
+朝の巡回で、**こちらが送って返事が来ていないスレッド**を見つけ、
+`00_返信待ち` ラベルを最新の状態に保ち、3営業日を超えたものには催促の下書きを作ります。
+手順は `.claude/skills/mx-followup/SKILL.md`、設計の意図は `docs/followup.md` にあります。
+
+```bash
+python3 -m mxmail.cli followup --dir /tmp/threads \
+    --sent /tmp/sent/*.json \
+    --chased <催促済みの threadId ...> \
+    --drafted <下書きが既にある threadId ...> \
+    --now 2026-09-04T08:00:00+09:00
+```
+
+出力例:
+
+```
+3 threads checked. 1 waiting on the other side, 4 announcement copies excluded.
+
+[  6 business days]  Re: InterBEE 2026 での展示のご相談
+  thread  : t-mitomo
+  waiting : m_kawagishi@mitomo.co.jp
+  sent    : 2026-08-27T07:39:05Z
+  send as : taku_yamashita@mxvideo.jp
+  note    : last inbound looks like an acknowledgement, not an answer
+
+chase now (1):
+    6d  Re: InterBEE 2026 での展示のご相談  [send as taku_yamashita@mxvideo.jp]
+```
+
+- 経過日数は **JST の営業日**で数えます。`--now` にはセッションの日付を必ず渡してください
+  （コンテナの時計はずれていることがあります）。祝日は `[followup] holidays` にあります。
+- `--sent` に渡した送信済みメールのうち、同じ本文を複数の相手に送ったもの（出展案内など）は
+  一斉配信と判定し、返信待ちには入れません。
+- 催促の下書きは、`00_催促済み` ラベル・既存の下書き・1回あたりの上限（既定 5 通）の
+  3 つで重複を防ぎます。判定は `chase_plan()` が行い、文面は Claude が書きます。
+- `create_draft` に差出人を指定する手段がないため、下書きごとに「どのアドレスから送るべきか」を
+  報告に明記します。送信前に差出人の確認が必要です。
+
 ## 構成
 
 ```
@@ -77,9 +116,12 @@ aliases = ["00092203", "BHov16dNMeW43s5KmUyu2js", "TBS統合FB"]
   SKILL.md                      ワークフロー本体
   references/style-guide.md     日英それぞれの文体・定型・作例
   references/parties.md         相手先の役割と注意点
-config/routing.toml             ドメイン判定・除外リスト・キーワード・案件登録
+.claude/skills/mx-followup/     返信待ちの巡回・催促下書きの手順（Claude が読む）
+config/routing.toml             ドメイン判定・除外リスト・キーワード・案件登録・返信待ちの設定
+docs/followup.md                返信待ちの巡回の設計メモ
 mxmail/triage.py                仕分けロジック（言語判定・振り分け）
 mxmail/linkage.py               スレッド間の突き合わせ・未転送検出
+mxmail/followup.py              返信待ちの判定・一斉配信の検出・催促の計画
 mxmail/cli.py                   コマンドライン
 samples/                        テスト用のサンプルメール（すべて架空）
 tests/                          テスト
@@ -96,6 +138,13 @@ Claude Code で下記のように依頼すると `mx-mail-draft` スキルが起
 ```
 新着メールの下書きを作成して
 taku_yamashita@mxvideo.jp の未読を処理して
+```
+
+返信待ちの巡回は `mx-followup` スキルが担当します。
+
+```
+返信待ちのスレッドを確認して
+催促の下書きを作って
 ```
 
 仕分けだけを単体で確認する場合:
@@ -132,6 +181,7 @@ also    : suggested companion draft to customer in JA
 - `[[parties]]` — 既知の相手先（会社名・区分・通常の使用言語）
 - `[companion_signals]` — もう一方への下書きが必要そうかを示すキーワード
 - `[[cases]]` — 日英で名前が違う案件の別名登録（スレッド突き合わせ用）
+- `[followup]` — 返信待ちのラベル・催促までの営業日数・1回あたりの上限・祝日・差出人の既定
 
 > `[sides] matrox` には `matrox.com` と `matrox.jp` の両方を入れてあります。
 > 本社からのメールは実際には `@matrox.com` で届くためです。
@@ -146,7 +196,8 @@ python3 -m unittest discover -s tests -v
 
 ## 制約
 
-- 作るのは**下書きのみ**。送信・アーカイブ・ラベル付けは行いません。
+- 作るのは**下書きのみ**。送信・アーカイブは行いません。
+  ラベルの付け外しは返信待ちの巡回に限り、`00_返信待ち` と `00_催促済み` の 2 つだけを扱います。
 - スレッドに書かれていない納期・価格・不具合の責任範囲は書きません。
   不明な点は `【要確認：…】` / `[TBC: …]` として残し、報告します。
 - `samples/` のメールはすべて架空のものです。実際の顧客メールは

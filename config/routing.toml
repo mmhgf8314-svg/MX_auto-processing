@@ -12,7 +12,10 @@ schema_version = 1
 name_en   = "Taku Yamashita"
 name_ja   = "山下 卓"
 mailbox   = "taku_yamashita@mxvideo.jp"
-aliases   = ["taku_yamashita@matrox.com"]
+# madokatech.co.jp is the owner's MADOKA / Sansan identity. It has to be here
+# so that a thread the owner wrote from that address reads as "waiting on
+# them" rather than as inbound mail -- see docs/followup.md.
+aliases   = ["taku_yamashita@matrox.com", "taku_yamashita@madokatech.co.jp"]
 role_en   = "Matrox Japan representative"
 role_ja   = "Matrox 日本担当"
 
@@ -147,3 +150,78 @@ aliases = ["00092203", "BHov16dNMeW43s5KmUyu2js", "TBS統合FB"]
 id      = "00109445"
 name    = "Yamaha PTP / ST 2022-7 operation"
 aliases = ["00109445", "VotyqM2VPNCN7GPb2dvSSDs"]
+
+# ---------------------------------------------------------------------------
+# Reply-waiting pass (`mxmail.followup`).
+#
+# Settings for the reply-waiting pass (`mxmail.followup`). Everything the
+# morning routine needs to decide *when* a thread counts as stalled and *how
+# many* chases it may write lives here, so none of it has to be restated in
+# the routine prompt.
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+
+[followup]
+
+# Gmail labels. The ids are what the MCP tools take; the names are for humans
+# reading a report. Both are here so the routine never has to call list_labels
+# and never has to guess an id.
+waiting_label    = "00_返信待ち"
+waiting_label_id = "Label_16"
+chased_label     = "00_催促済み"
+chased_label_id  = "Label_17"
+
+# A chase becomes due after this many *business* days with no reply, counted
+# in JST. Three is the working figure: it clears a weekend without letting a
+# Friday request sit until Wednesday.
+chase_after_business_days = 3
+
+# Hard cap on chase drafts written in one run.
+#
+# Not a nicety. The first morning this was switched on there were seven
+# threads over the threshold at once, and a backlog will always produce a
+# burst on day one. A mailbox that fills with drafts gets its automation
+# switched off, so the burst is spread over several mornings instead, oldest
+# first.
+max_chases_per_run = 5
+
+# How many copies of one body make it a mail merge rather than a request.
+#
+# An event announcement asks a real question -- "ご参加のご予定はございます
+# でしょうか" -- so no keyword test separates it from a genuine request. The
+# shape does: a request goes to one person, an announcement goes to a list.
+bulk_min_recipients = 3
+bulk_window_hours   = 24
+
+# Fallback sending identity when a thread has none of its own. Normally the
+# address is read off the thread -- whichever of the owner's hats was already
+# worn there -- and this is only reached on a thread the owner has not yet
+# written in.
+default_from = "taku_yamashita@mxvideo.jp"
+
+# Japanese public holidays. Without these a chase due Tuesday goes out on a
+# day nobody is at a desk, and the count drifts a day for the rest of the
+# week. Top up once a year.
+holidays = [
+  "2026-09-21",  # 敬老の日
+  "2026-09-22",  # 国民の休日
+  "2026-09-23",  # 秋分の日
+  "2026-10-12",  # スポーツの日
+  "2026-11-03",  # 文化の日
+  "2026-11-23",  # 勤労感謝の日
+  "2027-01-01",  # 元日
+  "2027-01-11",  # 成人の日
+  "2027-02-11",  # 建国記念の日
+  "2027-02-23",  # 天皇誕生日
+  "2027-03-21",  # 春分の日
+  "2027-04-29",  # 昭和の日
+  "2027-05-03",  # 憲法記念日
+  "2027-05-04",  # みどりの日
+  "2027-05-05",  # こどもの日
+]
+
+# Consulted only as a last resort, when the thread carries no owner message.
+[followup.from_map]
+"gsx.co.jp"      = "taku_yamashita@madokatech.co.jp"
+"dxhub.co.jp"    = "taku_yamashita@madokatech.co.jp"
+"coenova.co.jp"  = "taku_yamashita@madokatech.co.jp"

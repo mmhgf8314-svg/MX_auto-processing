@@ -1,5 +1,17 @@
 """Mail triage helpers for the taku_yamashita@mxvideo.jp draft workflow."""
 
+from .followup import (
+    Assessment,
+    BulkGroup,
+    Chase,
+    FollowupSettings,
+    assess,
+    business_days_elapsed,
+    chase_plan,
+    find_bulk,
+    load_followup_settings,
+    owner_send_address,
+)
 from .linkage import (
     CaseKey,
     Gap,
@@ -24,22 +36,32 @@ from .triage import (
 )
 
 __all__ = [
+    "Assessment",
+    "BulkGroup",
     "CaseKey",
+    "Chase",
     "Companion",
     "Config",
+    "FollowupSettings",
     "Gap",
     "Message",
     "Party",
     "ThreadRef",
     "Triage",
+    "assess",
+    "business_days_elapsed",
     "canonical_key",
+    "chase_plan",
     "classify",
     "counterparty_language",
     "detect_language",
     "extract_keys",
+    "find_bulk",
     "find_gaps",
     "group_by_key",
     "load_config",
+    "load_followup_settings",
+    "owner_send_address",
     "strip_quoted",
     "thread_has_matrox",
 ]
