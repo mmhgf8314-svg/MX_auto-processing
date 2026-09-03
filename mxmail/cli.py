@@ -14,7 +14,13 @@ Two modes:
                  python3 -m mxmail.cli linkage samples/linkage_*.json
                  python3 -m mxmail.cli linkage --dir /tmp/threads --format text
 
-Pass full `get_thread` output to linkage. Search results only preview the
+  followup -- read several threads and report which are stalled on the other
+             side, and which chase drafts are due:
+
+                 python3 -m mxmail.cli followup --dir /tmp/threads --now 2026-09-04T08:00:00+09:00
+                 python3 -m mxmail.cli followup samples/followup_threads.json --sent samples/followup_sent_bulk.json
+
+Pass full `get_thread` output to linkage and followup. Search results only preview the
 oldest messages of a thread, so a thread fetched by search alone will look
 stale and produce a gap that is not real.
 """
@@ -29,6 +35,7 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
+from .followup import assess, chase_plan, find_bulk, load_followup_settings
 from .linkage import Gap, ThreadRef, find_gaps
 from .triage import Config, Message, Triage, classify, load_config
 
@@ -275,12 +282,143 @@ def _run_linkage(argv: list[str]) -> int:
 
 
 # ---------------------------------------------------------------------------
+# followup
+# ---------------------------------------------------------------------------
+
+def _render_followup(assessments, due, deferred, bulk_groups):
+    lines = []
+    waiting = [a for a in assessments if a.is_waiting]
+    lines.append(
+        f"{len(assessments)} threads checked. "
+        f"{len(waiting)} waiting on the other side, "
+        f"{len(bulk_groups)} announcement copies excluded."
+    )
+    lines.append("")
+    for a in sorted(waiting, key=lambda x: x.business_days, reverse=True):
+        lines += [
+            f"[{a.business_days:>3} business days]  {a.subject}",
+            f"  thread  : {a.thread_id}",
+            f"  waiting : {a.counterparty or 'unknown'}",
+            f"  sent    : {a.last_owner_send}",
+            f"  send as : {a.from_address}",
+        ]
+        if a.ack_only_signal:
+            lines.append("  note    : last inbound looks like an acknowledgement, not an answer")
+        lines.append("")
+    if due:
+        lines.append(f"chase now ({len(due)}):")
+        for c in due:
+            lines.append(f"  {c.business_days:>3}d  {c.subject}  [send as {c.from_address}]")
+        lines.append("")
+    if deferred:
+        lines.append(f"deferred by the per-run cap ({len(deferred)}):")
+        for c in deferred:
+            lines.append(f"  {c.business_days:>3}d  {c.subject}")
+    return "\n".join(lines).rstrip()
+
+
+def _run_followup(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(
+        prog="mxmail followup",
+        description="Report which threads are stalled on the other side, and which chases are due.",
+    )
+    parser.add_argument("paths", nargs="*", help="thread JSON files ('-' for stdin)")
+    parser.add_argument("--dir", metavar="DIR", default=None, help="read every *.json in DIR")
+    parser.add_argument(
+        "--sent",
+        nargs="*",
+        default=None,
+        metavar="PATH",
+        help="the owner's recent sent messages, for mail-merge detection",
+    )
+    parser.add_argument("--config", metavar="PATH", default=None)
+    parser.add_argument(
+        "--chased",
+        nargs="*",
+        default=(),
+        metavar="THREAD_ID",
+        help="thread ids already carrying 00_催促済み",
+    )
+    parser.add_argument(
+        "--drafted",
+        nargs="*",
+        default=(),
+        metavar="THREAD_ID",
+        help="thread ids that already have an open draft",
+    )
+    parser.add_argument(
+        "--now",
+        metavar="ISO8601",
+        default=None,
+        help="treat this instant as 'now'; pass it, do not trust the container clock",
+    )
+    parser.add_argument("--format", choices=("json", "text"), default="text")
+    args = parser.parse_args(argv)
+
+    paths = list(args.paths)
+    if args.dir:
+        paths += sorted(glob.glob(os.path.join(args.dir, "*.json")))
+    if not paths:
+        parser.error("no thread files given; pass paths or --dir")
+
+    cfg = load_config(args.config)
+    settings = load_followup_settings(args.config)
+
+    now = args.now or datetime.now(timezone.utc).isoformat()
+
+    sent_messages: list[Message] = []
+    for path in args.sent or []:
+        sent_messages += _messages_from_thread(_read_json(path))
+    bulk_groups = find_bulk(sent_messages, settings) if sent_messages else {}
+
+    assessments = []
+    for path in paths:
+        for thread in _threads_from_payload(_read_json(path)):
+            assessments.append(
+                assess(
+                    thread.thread_id,
+                    thread.messages,
+                    cfg,
+                    now,
+                    settings=settings,
+                    bulk=bulk_groups,
+                )
+            )
+
+    due, deferred = chase_plan(
+        assessments,
+        already_chased=args.chased,
+        has_open_draft=args.drafted,
+        settings=settings,
+    )
+
+    if args.format == "text":
+        print(_render_followup(assessments, due, deferred, bulk_groups))
+    else:
+        print(
+            json.dumps(
+                {
+                    "now": now,
+                    "threads": [a.to_dict() for a in assessments],
+                    "chaseNow": [vars(c) for c in due],
+                    "deferred": [vars(c) for c in deferred],
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+    return 0
+
+
+# ---------------------------------------------------------------------------
 
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv and argv[0] == "linkage":
         return _run_linkage(argv[1:])
+    if argv and argv[0] == "followup":
+        return _run_followup(argv[1:])
     if argv and argv[0] == "triage":
         return _run_triage(argv[1:])
     # No subcommand: triage, so the original flag-only invocation still works.

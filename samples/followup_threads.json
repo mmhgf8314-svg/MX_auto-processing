@@ -1,0 +1,83 @@
+[
+  {
+    "id": "t-mitomo",
+    "messages": [
+      {
+        "id": "m61654189",
+        "threadId": "t-mitomo",
+        "sender": "m_kawagishi@mitomo.co.jp",
+        "subject": "InterBEE 2026 での展示のご相談",
+        "date": "2026-08-20T01:00:00Z",
+        "toRecipients": [
+          "taku_yamashita@mxvideo.jp"
+        ],
+        "plaintextBody": "山下様\n\nお世話になっております。三友の川岸です。\nInterBEEの件、社内で確認いたします。"
+      },
+      {
+        "id": "m43564134",
+        "threadId": "t-mitomo",
+        "sender": "taku_yamashita@mxvideo.jp",
+        "subject": "Re: InterBEE 2026 での展示のご相談",
+        "date": "2026-08-27T07:39:05Z",
+        "toRecipients": [
+          "m_kawagishi@mitomo.co.jp"
+        ],
+        "plaintextBody": "三友株式会社\n川岸様\n\nいつも大変お世話になっております。Matroxの山下です。\n\n先日ご相談させていただきました、InterBEE 2026 において Pixotope に弊社の ST2110 対応 I/O を組み合わせた形でご展示いただく件につきまして、その後のご状況はいかがでしょうか。\n\nご検討が難しい場合は、その旨お知らせいただくだけでも結構です。"
+      }
+    ]
+  },
+  {
+    "id": "t-raoul",
+    "messages": [
+      {
+        "id": "m70471081",
+        "threadId": "t-raoul",
+        "sender": "taku_yamashita@mxvideo.jp",
+        "subject": "Re: FW: Quotation : XCORE故障",
+        "date": "2026-08-31T19:25:19Z",
+        "toRecipients": [
+          "rgnagne@matrox.com"
+        ],
+        "plaintextBody": "Hi Raoul,\n\nTo clarify, XCORE/USB 3-3855848 was originally purchased in 2019 and had XCORE/PR/500 issued against it. We are asking for that license to be moved to the replacement dongle."
+      },
+      {
+        "id": "m32769200",
+        "threadId": "t-raoul",
+        "sender": "rgnagne@matrox.com",
+        "subject": "RE: FW: Quotation : XCORE故障",
+        "date": "2026-08-31T19:40:28Z",
+        "toRecipients": [
+          "taku_yamashita@mxvideo.jp"
+        ],
+        "plaintextBody": "Hi Taku,\n\nThank you for clarifying the situation, we will get back to you as soon as possible.\n\nRegards,\nRaoul"
+      }
+    ]
+  },
+  {
+    "id": "t-mingkai",
+    "messages": [
+      {
+        "id": "m17992953",
+        "threadId": "t-mingkai",
+        "sender": "taku_yamashita@mxvideo.jp",
+        "subject": "Fwd: Matrox X.mio 5 12G",
+        "date": "2026-08-31T07:47:42Z",
+        "toRecipients": [
+          "myang@matrox.com"
+        ],
+        "plaintextBody": "Hi Mingkai,\n\nCould you confirm the prices below?"
+      },
+      {
+        "id": "m96727826",
+        "threadId": "t-mingkai",
+        "sender": "myang@matrox.com",
+        "subject": "RE: Matrox X.mio 5 12G",
+        "date": "2026-08-31T13:53:21Z",
+        "toRecipients": [
+          "taku_yamashita@mxvideo.jp"
+        ],
+        "plaintextBody": "Hi Taku,\n\nBefore we quote, I would like to understand this project more. What is For-A planning to make?"
+      }
+    ]
+  }
+]
