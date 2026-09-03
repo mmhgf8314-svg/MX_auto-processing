@@ -12,10 +12,16 @@ schema_version = 1
 name_en   = "Taku Yamashita"
 name_ja   = "山下 卓"
 mailbox   = "taku_yamashita@mxvideo.jp"
-# madokatech.co.jp is the owner's MADOKA / Sansan identity. It has to be here
-# so that a thread the owner wrote from that address reads as "waiting on
-# them" rather than as inbound mail -- see docs/followup.md.
-aliases   = ["taku_yamashita@matrox.com", "taku_yamashita@madokatech.co.jp"]
+# madokatech.co.jp is the owner's MADOKA / Sansan identity, and the gmail
+# address is the account the mailbox actually lives in (drafts the routine
+# creates go out from it when the alias picker is not switched). Both have to
+# be here so that a thread the owner wrote from either address reads as
+# "waiting on them" rather than as inbound mail -- see docs/followup.md.
+aliases   = [
+  "taku_yamashita@matrox.com",
+  "taku_yamashita@madokatech.co.jp",
+  "mmhgf8314@gmail.com",
+]
 role_en   = "Matrox Japan representative"
 role_ja   = "Matrox 日本担当"
 
