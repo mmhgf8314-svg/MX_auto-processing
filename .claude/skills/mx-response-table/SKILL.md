@@ -1,9 +1,9 @@
 ---
 name: mx-response-table
-description: Build a single response table (published as an Artifact) covering every case in the taku_yamashita@mxvideo.jp mailbox that needs the owner's attention — new inbound mail, threads waiting on a reply, and threads overdue for a chase. Summary and background only; no draft text, no sends. Use for the daily mailbox review, when asked to check the mailbox, or when asked what needs a reply.
+description: Build the owner's morning response table「MX 朝の対応表」(published as an Artifact) covering every case in the taku_yamashita@mxvideo.jp mailbox that needs the owner's attention — new inbound mail, threads waiting on a reply, and threads overdue for a chase. Summary and background only; no draft text, no sends. Use for the daily mailbox review, when asked to check the mailbox, or when asked what needs a reply.
 ---
 
-# mxvideo.jp mailbox response table
+# mxvideo.jp mailbox response table（MX 朝の対応表）
 
 This replaces the old two-skill split (auto-draft on new mail, separate
 follow-up chases). Both produced text the owner still had to read against the
@@ -145,6 +145,11 @@ Sort 催促検討 and 返信待ち together by 経過 descending (longest-waitin
 first); 新着 cases sort by how recent they are.
 
 ## Step 4 — publish the table as an Artifact
+
+The page is named **「MX 朝の対応表」** — use exactly that as the `<title>` and
+the `<h1>`, every run. It is the owner's chosen name; do not rename it to
+「返信待ち案件表」 or anything else, and do not append a date or a subtitle to
+the title (the 基準日 belongs in the meta line under the heading).
 
 Read `config/response_table_state.json` first.
 
