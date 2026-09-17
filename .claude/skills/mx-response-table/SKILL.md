@@ -31,6 +31,38 @@ disagree by more than a day, trust the mailbox and say so in the report.
 All day counting is **JST**. A run that fires late at night UTC is already the
 next morning in Tokyo — counting in UTC undercounts by a day.
 
+## Step 0.5 — unattended runs must never stop on a permission prompt
+
+The routine「⚡ MX 朝の対応表」runs this skill with nobody watching. A Bash
+command that needs approval blocks the whole run: the routine reports
+"succeeded" (the wake was delivered) while the session sits on a permission
+dialog and the table is never republished. That is exactly what happened on
+every run from 2026-09-12 to 2026-09-17 — the pending command was a `cp` of
+files from `/root/.claude/projects/.../tool-results/` plus a heredoc.
+
+Rules for every run, attended or not:
+
+- **Never read, copy or reference anything under `/root/.claude/`.** When a
+  Gmail tool result is too large and gets saved there, use the `Read` tool on
+  it (or call `get_thread` again with `messageFormat="MINIMAL"` or
+  `"METADATA_ONLY"`); do not `cat`, `cp` or `python3` it from Bash.
+- **Do not write files with Bash heredocs** (`cat > file << EOF`). Use the
+  `Write` tool.
+- The only Bash commands this skill may run are: `python3 -m mxmail.cli ...`
+  on files that were written with the `Write` tool, and the `git add / commit
+  / push` in Step 4. Nothing else.
+- **The engine in Step 2 is optional.** If staging the thread JSON with the
+  `Write` tool would be impractical (many threads, very long bodies), skip
+  the engine entirely: classify the thread by reading it, count business days
+  yourself (JST, Monday–Friday, Japanese public holidays excluded, counted
+  from the owner's last outbound message), and say in the report that the
+  engine was skipped. A table built without the engine is far better than no
+  table.
+- If any tool call is refused or would need approval, do not wait and do not
+  retry the same call. Note it in the report and continue with the steps
+  that still work. Publishing the artifact (Step 4) is the one step that
+  must not be dropped.
+
 ## Step 1 — collect candidates
 
 ### 1a. New inbound mail
@@ -57,7 +89,8 @@ Two labels carry this state between runs:
 writes one. It is set by hand, later, at the point a chase mail actually goes
 out. Do not set it here; only read it, as context for the row's proposal.
 
-Label what went out yesterday:
+Label what went out since the last run. The routine runs Monday–Friday
+mornings, so on Monday use `newer_than:3d`; otherwise:
 
 ```
 mcp__Gmail__search_threads  query="in:sent newer_than:1d"
@@ -72,7 +105,7 @@ is one copy of a mail merge, or the newest message is inbound (then it belongs
 in Step 1a, not here). Confirm the shape rather than guessing:
 
 ```bash
-python3 -m mxmail.cli followup --sent /tmp/sent/*.json --format text
+python3 -m mxmail.cli followup --sent /tmp/sent/*.json --format text   # optional — only on files written with the Write tool
 ```
 
 `state: bulk` in the output means an announcement, however direct the
@@ -99,10 +132,12 @@ A closing message from the owner that asks nothing (a thank-you, "無事完了�
 last — `assess()` only knows who sent the newest message, not whether it
 actually asked anything. That reading is this skill's job, not the tool's.
 
-## Step 2 — run the engine
+## Step 2 — run the engine (when it can be done without Bash file staging)
 
-Do not eyeball the routing — run every message and every stalled thread
-through the same deterministic rules, from the repository root:
+Prefer running every message and every stalled thread through the same
+deterministic rules, from the repository root. Stage the thread JSON with
+the `Write` tool only (see Step 0.5); if that is impractical, skip this step
+and classify by hand as described there:
 
 ```bash
 python3 -m mxmail.cli --thread /path/to/thread.json --format text          # new inbound: action/side/language/companion
@@ -177,6 +212,9 @@ git push -u origin <current-branch>
 
 This is what lets a fresh container next morning find the same link — the
 state has to survive on disk *and* in the remote, not just in this session.
+If the push is refused or would need approval, skip it and say so in the
+report; the artifact URL is already recorded on the default branch, so a
+missed state push is harmless.
 
 ## Step 5 — report back in chat
 
