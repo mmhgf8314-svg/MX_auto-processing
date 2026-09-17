@@ -19,7 +19,7 @@ authoritative version of any thread's participants is the thread itself.
 |---|---|
 | Distributor — sales & logistics | Delivery dates, stock, quotations, shipment and tracking. Their logistics staff often write to head office in English directly; match whatever language they used. |
 | Distributor — engineering | Technical answers in Japanese, with product names left in Latin script |
-| Field technical partner | Bilingual. Often the bridge to head office engineering — check whether they have already escalated before you draft a duplicate report. |
+| Field technical partner (`golter.jp`) | The distributor's technical advisor and the bridge between Matrox engineering and Japanese customers. Bilingual software engineer: takes technical guidance from head office (time zone and language barrier included), turns it into Japanese explanations, answers and workarounds for the customer, and talks to Matrox engineering directly when needed. When head office gives a technical finding, the default path is: hand it to this partner to relay to the customer, rather than writing the customer explanation yourself. Check whether they have already escalated before you draft a duplicate report. |
 | End customers (broadcasters, integrators, developers) | Japanese, formal keigo. Never expose Matrox-internal case numbers or internal discussion. |
 
 ## Traps
