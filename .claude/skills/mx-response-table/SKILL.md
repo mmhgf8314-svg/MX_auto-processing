@@ -141,7 +141,15 @@ mcp__Gmail__label_thread  threadId=<id>  labelIds=["Label_16"]
 
 Then walk `label:00_返信待ち` and release what has actually been answered
 (remove **both** labels — a stale `00_催促済み` would misinform next run's
-proposal even though this skill no longer uses it as a guard):
+proposal even though this skill no longer uses it as a guard).
+
+**Search by the label's display name, never by its id.** The Gmail tool
+description says `label:` takes ids, but in this mailbox
+`query="label:Label_16"` returns nothing while `query="label:00_返信待ち"`
+returns every labelled thread (verified 2026-09-25, when a run searched by
+id, got zero results and skipped the whole label inventory). Ids are only
+for `label_thread` / `unlabel_thread`. If the name search also returns
+nothing, say so in the report; do not conclude the label is empty.
 
 ```
 mcp__Gmail__unlabel_thread  threadId=<id>  labelIds=["Label_16", "Label_17"]
@@ -199,6 +207,17 @@ against the rows you already have:
   join the 本社回答待ち picture — as background on an existing row or, if
   nothing in the mailbox carries them yet, as one line in the report so the
   owner knows head office committed to something.
+
+**Rows carried over from an earlier run are re-verified, not copied.** A
+minutes-derived row (「議事録から」) stays on the page until the owner has
+acted on it, so on every later run check each one against `in:sent` since
+the previous run: if the owner's mail covers the action (the three questions
+were sent to the customer, the legal team was told to hold the NDA), mark
+the row 対応済み with the date and drop its proposal, or remove it. The same
+applies to any 返信待ち row whose background says "つなぎ返信済み": if a
+substantive reply has since gone out, the background and proposal must say
+so. "No new minutes since last run" means the minutes did not change; it
+never means the rows are still current.
 
 **Boundaries for this step.** Read only. Never write to Notion from this
 skill — no page edits, no comments, no database rows. Never copy the
