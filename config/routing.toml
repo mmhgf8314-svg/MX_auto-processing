@@ -157,6 +157,12 @@ id      = "00109445"
 name    = "Yamaha PTP / ST 2022-7 operation"
 aliases = ["00109445", "VotyqM2VPNCN7GPb2dvSSDs"]
 
+[[cases]]
+id      = "OPP-0021263"
+name    = "Mitomo / Pixotope ST2110 exhibit at InterBEE 2026"
+aliases = ["OPP-0021263", "Mitomo/Pixotope", "Mitomo / Pixotope", "Pixotope"]
+notes   = "Two threads for one case: the customer-facing thread with 三友 川岸様 (InterBEE 2026 exhibit consultation) and the internal Matrox thread with Mingkai/Donald (\"Mitomo / Pixotope - update from Kawagishi-san\"). Missed once (2026-09-24 morning run) because Matrox answered on the internal thread on 9/17 and it was never relayed to 川岸様 -- the internal thread had no case number shared with the customer thread and was not unread/labelled by the time of the next review."
+
 # ---------------------------------------------------------------------------
 # Reply-waiting pass (`mxmail.followup`).
 #
