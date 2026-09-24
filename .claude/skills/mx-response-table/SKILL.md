@@ -152,6 +152,66 @@ A closing message from the owner that asks nothing (a thank-you, "無事完了�
 last — `assess()` only knows who sent the newest message, not whether it
 actually asked anything. That reading is this skill's job, not the tool's.
 
+### 1c. Notion meeting notes (議事録)
+
+The owner's calls with head office (the Monday 22:00 JST call with Mingkai,
+customer meetings, JM meetings) are recorded by Notion AI as meeting notes.
+Decisions made on those calls change rows in this table before any mail
+does — "stop the new NDA", "ask Sony three questions", "contact Sakaguchi" —
+and a table built from the mailbox alone will keep proposing the opposite of
+what was agreed on the call. So every run reads the meeting notes too.
+
+**Which notes.** Morning: notes created since the previous run (Monday:
+since Friday morning). Evening: notes created since the morning run.
+
+```
+mcp__Notion__notion-query-meeting-notes
+  filter = {"operator":"and","filters":[{"property":"created_time",
+            "filter":{"operator":"date_is_within",
+                      "value":{"type":"relative","value":"custom",
+                               "direction":"past","unit":"day","count":<N>}}}]}
+```
+
+Then `mcp__Notion__notion-fetch` on each result **without** the transcript
+(`include_transcript` omitted or false) — the `<summary>` block with its
+Action Items is enough. Skip notes whose summary is plainly not business
+(language practice recordings, personal calls, other companies' meetings);
+the owner records many things.
+
+**How a note changes the table.** Read the Action Items and each section
+against the rows you already have:
+
+- An action item owned by the owner ("Taku to …") that no mail thread yet
+  reflects becomes a **新着** row (morning) or a **今夜投げる** row (evening,
+  when the counterparty is head office). Cite the note: 「9/21 Mingkai
+  定例の議事録より」. 経過 is blank — there is no thread to count from.
+- An action item that reverses an existing row (the note says stop, the
+  thread still says go) rewrites that row's 提案. Say explicitly that the
+  call overrides the thread, and name what the owner has to tell the
+  counterparty. Never leave the mailbox reading standing next to a call
+  decision that contradicts it.
+- A fact from the call that answers an open question in a 返信待ち row
+  ("ConvertIP DSH is one stream in, one stream out — Dan confirmed on the
+  call") goes into that row's 背景, with the source. The row stays 返信待ち
+  if a written answer is still owed; the proposal can say the owner already
+  has the answer and may not need to wait.
+- Action items owned by head office ("Dan to send …", "Frank to discuss …")
+  join the 本社回答待ち picture — as background on an existing row or, if
+  nothing in the mailbox carries them yet, as one line in the report so the
+  owner knows head office committed to something.
+
+**Boundaries for this step.** Read only. Never write to Notion from this
+skill — no page edits, no comments, no database rows. Never copy the
+transcript into the table; summarise. Numbers that head office would not
+want a customer to see (Matrox's selling price to JM, margins) stay out of
+the table even though they appear in the notes — write 「価格は議事録参照」.
+
+**When Notion is not connected.** The routine may run without the Notion
+connector (the tools will simply be absent). Then build the table from the
+mailbox as before and put one line in the meta note and in the report:
+「Notion 未接続のため議事録は未反映」. Do not silently skip; the owner needs
+to know the table is missing that source.
+
 ## Step 2 — run the engine (when it can be done without Bash file staging)
 
 Prefer running every message and every stalled thread through the same
@@ -247,7 +307,8 @@ Short. The table is the detail view; the chat message is not a second copy of
 it. Give: the artifact link, the counts by 種別, and one line on anything
 that changed since the last run worth flagging on its own (a new 催促検討
 case, a long-silent thread that finally answered). If the shell clock and the
-mailbox disagreed in Step 0, say so here too.
+mailbox disagreed in Step 0, say so here too. If Notion was not connected
+(Step 1c), say「Notion 未接続のため議事録は未反映」.
 
 ## Evening edition — MX 夕方の対応表
 
@@ -264,7 +325,10 @@ page. Before Montreal's day starts it shows the owner:
 `in:sent newer_than:1d`, read against the morning page (read the morning
 `artifactUrl` first so the evening page does not restate rows that have not
 moved). A row that is unchanged since the morning does not get a full card;
-it appears at most as one line in the 本社回答待ち list.
+it appears at most as one line in the 本社回答待ち list. Meeting notes
+created since the morning run (Step 1c) are part of the window: a decision
+taken on a daytime call with JM or a customer is exactly what head office
+needs to hear tonight.
 
 **Who counts as head office.** Matrox sales (Mingkai, Franc, Pardo, Donald,
 Kyle, Dan), support (`convertipsupport@`, Kevin, Sandy, Anosh, Marwan, Qing),
@@ -294,7 +358,8 @@ threads that were answered during the day. Never set `00_催促済み`.
 
 **Report.** The evening artifact link, the three counts, and the
 `今夜投げる` rows as one line each — that list is the owner's checklist for
-tonight. Nothing else.
+tonight. Plus the one-line Notion notice from Step 1c if the connector was
+missing. Nothing else.
 
 ## Boundaries
 
@@ -303,6 +368,8 @@ tonight. Nothing else.
 - The only mailbox changes this skill makes are `00_返信待ち` labelling and
   release, exactly as described in Step 1b. It never sets `00_催促済み`,
   never archives, never trashes, never touches any other label.
+- Notion is read-only for this skill (Step 1c). No page, comment or
+  database write, ever.
 - Don't invent urgency or a business-day count that is not in the engine
   output.
 - Never copy credentials (registry passwords, API keys, download links with
