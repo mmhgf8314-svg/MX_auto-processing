@@ -29,7 +29,8 @@
 | Mingkai | アジア営業統括。日本の営業責任者 | 見積依頼（Lan に発行を指示）、Salesforce、パートナー戦略。顧客スレッドのほぼ全部に Cc |
 | Franc | OEM 製品側の責任者 | ソニーメディカル（X.mio、AVIO2）、NEC ケースのエスカレーション、サイバネット価格協議 |
 | Lan | 見積書（Quotation）の発行 | Mingkai の指示で作成。Franc の不在時の連絡先 |
-| Dan、Wayne | 展示会デモ機材の計画（ORIGIN を除く） | InterBEE 2026 の JM ブース展示（AVIO2、DVW/MGX、Monarch EDGE、ConvertIP。機材凍結 10/16） |
+| Dan | **ConvertIP のプロダクトマネージャー**。展示会デモ機材の計画も担当（ORIGIN を除く） | ConvertIP の仕様・機能の質問はまず Dan（サポート案件は Kevin・Sandy）。InterBEE 2026 の JM ブース展示（AVIO2、DVW/MGX、Monarch EDGE、ConvertIP。機材凍結 10/16） |
+| Wayne | 展示会デモ機材（Dan と組む） | InterBEE 2026 の Monarch EDGE デモ |
 | Kevin、Sandy | ConvertIP サポート | Case 00092203（NEC）など。ケースシステムからのメールは本文が HTML 側にしか入らない |
 | Marwan、Anosh | ORIGIN 全般。**InterBEE の ORIGIN 展示方法も Marwan が決める**（Dan の機材リストとは別枠。ゴルタと直接やりとりしている） | NTV の NMOS 問題、AWS の InterBEE 構成、日興通信の ORIGIN デモ、ソニーの DSH 質問 |
 | Katia | 貸出・SLG | REQ（貸出依頼）、90 日ローン、ライセンス返却 |
@@ -55,7 +56,7 @@
 | 株式会社朋栄 | **FOR-A**（「4A」不可） | for-a.co.jp（返信は mpeg.co.jp から届くこともある） | IMPULSE 向け X.mio5 12G／DSX LE5 12G の検討。FA-1616 との JPEG XS 互換性検証（10 月後半に借用）。ConvertIP の PTP GM 切替ショック問題 | Mingkai、ゴルタ、JM、朋栄側 3 名を Cc。InterBEE で JPEG XS はフィーチャーしない |
 | ヤマハ株式会社 | ヤマハ | music.yamaha.com | ネットワークスイッチ。InterBEE 協業（ヤマハブースで Matrox 2110、JM ブースでヤマハスイッチ）。判断は販売会社 YMJ。Case 00109445（PTP／ST 2022-7） | 先方は Confidential 付きで送ってくる。ヤマハ側 7 名程度、Mingkai、ゴルタ、JM を Cc |
 | 日興通信株式会社 | 日興通信（ブランドは NIXUS） | nikkotelecom.co.jp | Web テロップの HTML 出力を ORIGIN で扱う検証（LOCE）。InterBEE 展示を検討中 | JM、ゴルタ、日興側 4 名を Cc。添付はダウンロードサイト経由で届く |
-| ソニー株式会社（メディカル事業） | ソニー、ソニーメディカル | sony.com | 次世代 NUCLeUS。X.mio5／X.mio6、JPEG XS、AVIO2 ×4 の評価（REQ #12675）、ConvertIP DSH の Gateway Mode | 技術窓口と評価担当の 2 名。ゴルタ、JM、Mingkai、Marwan、Franc を Cc。本社向けに英語の要約を別送する。11 月に Mingkai 来日予定 |
+| ソニー株式会社（メディカル事業） | ソニー、ソニーメディカル | sony.com | 次世代 NUCLeUS。X.mio5／X.mio6、JPEG XS、AVIO2 ×4 の評価（REQ #12675）、ConvertIP DSH／SRH の評価。**AVIO2 と ConvertIP の相互送受信（非圧縮・JPEG XS）は動作確認済み**（2026-09-25、本人確認）。DSH の Gateway Mode は優先度を下げた | 技術窓口と評価担当の 2 名。ゴルタ、JM、Mingkai、Marwan、Franc を Cc。本社向けに英語の要約を別送する。11 月に Mingkai 来日予定 |
 | ソニー株式会社（放送機器側） | ソニー | sony.com | 8 月に打合せ。詳細は CRM 台帳 | メディカルとは別スレッド・別担当 |
 | 日本電気株式会社 | NEC | nec.com（関連: nesic.com、solnet.ne.jp、erg-ventures.co.jp） | Case 00092203（ConvertIP CIP-DSS SDI-OUT 中断、TBS 統合 FB）、Case 00145453。PCAP 採取 | JM が窓口、ゴルタが技術。NEC 側は多人数 Cc |
 | 日本テレビ放送網 | NTV、日本テレビ | ntv.co.jp（関連: ntv-wands.co.jp） | ORIGIN 導入。NMOS レシーバー問題（本社対応中） | 主担当はゴルタ。本人と LINE で調整し、様子見の方針（9/24） |
