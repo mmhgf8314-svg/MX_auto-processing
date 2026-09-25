@@ -65,5 +65,6 @@ claude.ai のルーティン画面で人が編集する。変更案の文面は�
 - 本社側（英語）: Mingkai（営業責任者）、Franc、Dan、Kevin・Sandy（ConvertIP サポート）、Marwan・Anosh（ORIGIN）、
   Katia（貸出・SLG）、Chantal・Jason（法務）。
 - 日本側（日本語）: ジャパンマテリアル（JM）が販売代理店。Andrew（golter.jp）は技術パートナーで、連絡は LINE が中心。
+- OEM 製品の JM 向け価格の計算式と価格表の読み方は [docs/pricing.md](docs/pricing.md)。価格表本体は Drive にあり、リポジトリには置かない。
 - 会社ごとの正式表記・案件・Cc の慣行は [docs/parties.md](docs/parties.md)。機械判定用のドメイン表は
   `config/routing.toml` の `[[parties]]`。社名を直すときは両方を直す。
