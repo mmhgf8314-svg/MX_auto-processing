@@ -29,9 +29,9 @@
 | Mingkai | アジア営業統括。日本の営業責任者 | 見積依頼（Lan に発行を指示）、Salesforce、パートナー戦略。顧客スレッドのほぼ全部に Cc |
 | Franc | OEM 製品側の責任者 | ソニーメディカル（X.mio、AVIO2）、NEC ケースのエスカレーション、サイバネット価格協議 |
 | Lan | 見積書（Quotation）の発行 | Mingkai の指示で作成。Franc の不在時の連絡先 |
-| Dan、Wayne | 展示会デモ機材の計画 | InterBEE 2026 の JM ブース展示（機材凍結 10/16） |
+| Dan、Wayne | 展示会デモ機材の計画（ORIGIN を除く） | InterBEE 2026 の JM ブース展示（AVIO2、DVW/MGX、Monarch EDGE、ConvertIP。機材凍結 10/16） |
 | Kevin、Sandy | ConvertIP サポート | Case 00092203（NEC）など。ケースシステムからのメールは本文が HTML 側にしか入らない |
-| Marwan、Anosh | ORIGIN | NTV の NMOS 問題、AWS の InterBEE 構成、ソニーの DSH 質問 |
+| Marwan、Anosh | ORIGIN 全般。**InterBEE の ORIGIN 展示方法も Marwan が決める**（Dan の機材リストとは別枠。ゴルタと直接やりとりしている） | NTV の NMOS 問題、AWS の InterBEE 構成、日興通信の ORIGIN デモ、ソニーの DSH 質問 |
 | Katia | 貸出・SLG | REQ（貸出依頼）、90 日ローン、ライセンス返却 |
 | Chantal、Jason | 法務 | NDA |
 | Kim | マーケティング | 製品コピー、展示会の卓上サイン |
