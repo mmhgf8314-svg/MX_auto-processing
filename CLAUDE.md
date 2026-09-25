@@ -60,5 +60,7 @@ claude.ai のルーティン画面で人が編集する。変更案の文面は�
 ## 関係者の呼び方
 
 - 本社側（英語）: Mingkai（営業責任者）、Franc、Dan、Kevin・Sandy（ConvertIP サポート）、Marwan・Anosh（ORIGIN）、
-  Katia（貸出・SLG）、Chantal・Jason（法務）。詳細は `.claude/skills/mx-mail-draft/references/parties.md`。
+  Katia（貸出・SLG）、Chantal・Jason（法務）。
 - 日本側（日本語）: ジャパンマテリアル（JM）が販売代理店。Andrew（golter.jp）は技術パートナーで、連絡は LINE が中心。
+- 会社ごとの正式表記・案件・Cc の慣行は [docs/parties.md](docs/parties.md)。機械判定用のドメイン表は
+  `config/routing.toml` の `[[parties]]`。社名を直すときは両方を直す。

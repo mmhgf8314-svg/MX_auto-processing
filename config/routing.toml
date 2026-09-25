@@ -76,9 +76,10 @@ notes            = "Bilingual field/technical support in Japan. Often the techni
 [[parties]]
 domain           = "nikkotelecom.co.jp"
 name_en          = "Nikko Telecom"
-name_ja          = "日興テレコム"
+name_ja          = "日興通信株式会社"
 kind             = "customer"
 default_language = "ja"
+notes            = "Signs as 日興通信. NIXUS is their product brand. ORIGIN / HTML telop evaluation, InterBEE 2026 exhibit under consideration."
 
 [[parties]]
 domain           = "trafficsim.co.jp"
@@ -93,6 +94,15 @@ name_en          = "FOR-A Company Limited"
 name_ja          = "株式会社朋栄"
 kind             = "customer"
 default_language = "ja"
+notes            = "Write FOR-A, never 4A. Replies sometimes arrive from mpeg.co.jp (see that entry)."
+
+[[parties]]
+domain           = "mpeg.co.jp"
+name_en          = "FOR-A Company Limited (alternate address)"
+name_ja          = "株式会社朋栄（別ドメイン）"
+kind             = "customer"
+default_language = "ja"
+notes            = "Same people as for-a.co.jp; their replies come from here. Keep both addresses on the thread."
 
 [[parties]]
 domain           = "sptvjsat.com"
@@ -107,6 +117,94 @@ name_en          = "H&M Software"
 name_ja          = "H&M Software"
 kind             = "customer"
 default_language = "ja"
+
+[[parties]]
+domain           = "mitomo.co.jp"
+name_en          = "Mitomo Co., Ltd."
+name_ja          = "三友株式会社"
+kind             = "customer"
+default_language = "ja"
+notes            = "Official name is 三友株式会社, not 三友商事. Pixotope + ST 2110 exhibit at InterBEE 2026; DSX LE5/LE6 and ConvertIP loan."
+
+[[parties]]
+domain           = "music.yamaha.com"
+name_en          = "Yamaha Corporation"
+name_ja          = "ヤマハ株式会社"
+kind             = "partner"
+default_language = "ja"
+notes            = "Network switches. InterBEE decisions sit with their sales company (YMJ). Mails arrive marked Confidential."
+
+[[parties]]
+domain           = "sony.com"
+name_en          = "Sony Corporation"
+name_ja          = "ソニー株式会社"
+kind             = "customer"
+default_language = "ja"
+notes            = "Medical (NUCLeUS, X.mio, AVIO2, ConvertIP DSH) and broadcast contacts are separate threads. Head office (Franc, Marwan) needs an English summary."
+
+[[parties]]
+domain           = "nec.com"
+name_en          = "NEC Corporation"
+name_ja          = "日本電気株式会社"
+kind             = "customer"
+default_language = "ja"
+notes            = "Case 00092203 / 00145453 via JM and Golter. Related SI domains: nesic.com, solnet.ne.jp, erg-ventures.co.jp."
+
+[[parties]]
+domain           = "ntv.co.jp"
+name_en          = "Nippon Television"
+name_ja          = "日本テレビ放送網株式会社"
+kind             = "customer"
+default_language = "ja"
+notes            = "ORIGIN deployment; NMOS receiver issue handled by Golter with head office. Related: ntv-wands.co.jp."
+
+[[parties]]
+domain           = "nhk.or.jp"
+name_en          = "NHK"
+name_ja          = "日本放送協会"
+kind             = "customer"
+default_language = "ja"
+notes            = "Post-IBC follow-up via GlobalM (ORIGIN on cloud). One thread per department."
+
+[[parties]]
+domain           = "teac.jp"
+name_en          = "TEAC Corporation"
+name_ja          = "ティアック株式会社"
+kind             = "prospect"
+default_language = "ja"
+notes            = "Lead from WHX Dubai 2026. Cc their manager, domestic sales manager and Mingkai."
+
+[[parties]]
+domain           = "grassvalley.com"
+name_en          = "Grass Valley"
+name_ja          = "グラスバレー"
+kind             = "customer"
+default_language = "ja"
+notes            = "Japan contact writes in Japanese; purchasing goes through GV Canada and ships from Montreal. Quotations issued by Lan."
+
+[[parties]]
+domain           = "amazon.co.jp"
+name_en          = "Amazon Web Services Japan"
+name_ja          = "アマゾン ウェブ サービス ジャパン"
+kind             = "partner"
+default_language = "ja"
+notes            = "ORIGIN over Direct Connect for InterBEE 2026; Marwan is the head-office contact. Overlaps with Inter BEE MoIP (Golter, JM) -- check before replying."
+
+[[parties]]
+domain           = "globalm.media"
+name_en          = "GlobalM"
+name_ja          = "GlobalM"
+kind             = "partner"
+default_language = "en"
+notes            = "Runs ORIGIN on OCI. Two contacts, always cc'd together. hello@ is their newsletter (ignored above)."
+
+[[parties]]
+domain           = "nexion.co.jp"
+name_en          = "Nexion Corporation"
+name_ja          = "株式会社ネクシオン"
+kind             = "customer"
+default_language = "ja"
+notes            = "Broadcast SI introduced through GlobalM at IBC 2026. Cc their three contacts, Golter and GlobalM."
 
 # ---------------------------------------------------------------------------
 # Signals used to suggest whether a companion draft to the *other* side is
