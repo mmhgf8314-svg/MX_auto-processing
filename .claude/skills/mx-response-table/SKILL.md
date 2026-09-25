@@ -88,12 +88,26 @@ Rules for every run, attended or not:
 ### 1a. New inbound mail
 
 ```
-mcp__Gmail__search_threads  query="to:taku_yamashita@mxvideo.jp is:unread in:inbox"
+mcp__Gmail__search_threads  query="in:inbox newer_than:2d -from:no-reply-claude@mail.anthropic.com"
+mcp__Gmail__search_threads  query="in:inbox is:unread"
 ```
 
-Widen as asked (`newer_than:3d`, a specific sender, `is:starred`). Search
-results only preview the *oldest* messages of a thread — call `get_thread`
-with `messageFormat="PLAIN_TEXT"` on every candidate before judging it. The
+**Read state is not a signal.** The owner reads mail on the phone during the
+day, so by the morning run most of yesterday's inbound mail is already read.
+A run that searched only `is:unread` skipped a partner's question that had
+arrived at 12:20 the day before (verified 2026-09-25); it surfaced a day and
+a half later only because the owner remembered it. The first query is the
+one that matters: every inbox thread with activity in the window, read or
+not. The second only adds older unread mail. On Monday widen the window to
+`newer_than:4d`; if the state file shows the previous run was more than two
+days ago, widen it to cover the gap.
+
+A thread is a candidate when its **newest message is inbound and the owner
+has not written in the thread since**. Drop it when the owner already
+replied, when the newest message is the owner's own, or when it is a
+notice, a mail merge, or a routine report. Search results only preview the
+*oldest* messages of a thread — call `get_thread` with
+`messageFormat="PLAIN_TEXT"` on every candidate before judging it. The
 newest message is the one to summarise; the rest is the background.
 
 ### 1b. Threads stalled on the other side
