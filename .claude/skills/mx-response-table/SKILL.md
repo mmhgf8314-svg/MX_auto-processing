@@ -98,9 +98,9 @@ A run that searched only `is:unread` skipped a partner's question that had
 arrived at 12:20 the day before (verified 2026-09-25); it surfaced a day and
 a half later only because the owner remembered it. The first query is the
 one that matters: every inbox thread with activity in the window, read or
-not. The second only adds older unread mail. On Monday widen the window to
-`newer_than:4d`; if the state file shows the previous run was more than two
-days ago, widen it to cover the gap.
+not. The second only adds older unread mail. The routine runs every day including weekends (since 2026-09-27), so the
+window is the same every day; if the state file shows the previous run was
+more than two days ago, widen it to cover the gap.
 
 A thread is a candidate when its **newest message is inbound and the owner
 has not written in the thread since**. Drop it when the owner already
@@ -123,8 +123,8 @@ Two labels carry this state between runs:
 writes one. It is set by hand, later, at the point a chase mail actually goes
 out. Do not set it here; only read it, as context for the row's proposal.
 
-Label what went out since the last run. The morning routine runs
-Monday–Friday mornings, so on Monday use `newer_than:3d`; otherwise:
+Label what went out since the last run. The morning routine runs every
+day including weekends, so the window is always:
 
 ```
 mcp__Gmail__search_threads  query="in:sent newer_than:1d"
@@ -183,8 +183,8 @@ does — "stop the new NDA", "ask Sony three questions", "contact Sakaguchi" —
 and a table built from the mailbox alone will keep proposing the opposite of
 what was agreed on the call. So every run reads the meeting notes too.
 
-**Which notes.** Morning: notes created since the previous run (Monday:
-since Friday morning). Evening: notes created since the morning run.
+**Which notes.** Morning: notes created since the previous run (the routine
+runs every day, so normally since yesterday evening). Evening: notes created since the morning run.
 
 ```
 mcp__Notion__notion-query-meeting-notes
