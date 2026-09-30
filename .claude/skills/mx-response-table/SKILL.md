@@ -245,6 +245,39 @@ mailbox as before and put one line in the meta note and in the report:
 「Notion 未接続のため議事録は未反映」. Do not silently skip; the owner needs
 to know the table is missing that source.
 
+### 1d. リマインド（Notion の「MX リマインド」表）
+
+The owner keeps a small Notion database of goal-driven reminders:
+「MX リマインド（案件ゴール・期日）」, data source
+`collection://67e33c83-c589-43b5-a8d0-603fd1863a02` (under Business / MX).
+Each row is one follow-up with a 期日, the case's ゴール, a 条件 ("if no reply
+by X, do Y") and a 担当 (山下 / JM / 本社 / 先方).
+
+Query it with `mcp__Notion__notion-query-data-sources` (or fetch the data
+source and read the rows) for rows where **状態 = 未** and **期日 ≤ today
+(JST, from Step 0)**. Keep two groups:
+
+- **今日の期日** — 期日 = today.
+- **期限超過** — 期日 < today and 状態 still 未.
+
+For each row carry: 案件, 期日, 次のアクション, 条件, 担当, ゴール (one line).
+Before listing a row, check the mailbox for what its 条件 says ("返事がなければ…"):
+if the counterparty has answered since the row was written, say so in one line
+(「10/2 に川岸様から回答あり」) so the owner can close it; if not, state which
+branch of the 条件 now applies. Do not mark anything 済 yourself.
+
+**Boundaries.** Read only, like Step 1c: never create, edit or close a row from
+this skill. The owner closes rows in conversation. Do not put Matrox→JM prices
+or other confidential figures in the reminder block.
+
+If `mcp__Notion__notion-query-data-sources` is unavailable or refused, try
+`mcp__Notion__notion-search` with `data_source_url` set to the data source
+above and read each hit's properties with `mcp__Notion__notion-fetch`. Never
+wait on a permission prompt (Step 0.5).
+
+**When Notion is not connected** or the database cannot be read, say
+「リマインド表は未反映」 in the meta note and the report.
+
 ## Step 2 — run the engine (when it can be done without Bash file staging)
 
 Prefer running every message and every stalled thread through the same
@@ -291,6 +324,14 @@ counterparty — pull every field from the engine output or the thread itself.
 
 Sort 催促検討 and 返信待ち together by 経過 descending (longest-waiting
 first); 新着 cases sort by how recent they are.
+
+**今日のリマインド block (morning).** Put it at the very top of the page, above
+the tiles' case list, as its own section「今日のリマインド」 with the rows from
+Step 1d (今日の期日 first, then 期限超過). Each item is one compact card:
+案件, 期日, 次のアクション, 条件の現状 (answered / not answered), 担当. It is
+not a 種別 and does not change the three tile counts; add one extra tile or a
+line under the tiles:「リマインド: 今日 N／超過 M」. If there are none, write
+「該当なし」 in one line.
 
 ## Step 4 — publish the table as an Artifact
 
@@ -341,7 +382,9 @@ it. Give: the artifact link, the counts by 種別, and one line on anything
 that changed since the last run worth flagging on its own (a new 催促検討
 case, a long-silent thread that finally answered). If the shell clock and the
 mailbox disagreed in Step 0, say so here too. If Notion was not connected
-(Step 1c), say「Notion 未接続のため議事録は未反映」.
+(Step 1c), say「Notion 未接続のため議事録は未反映」. Add one line with the
+reminder counts from Step 1d (「リマインド: 今日 N／超過 M」) and name the items
+due today in a few words each — this line is what reaches the owner's inbox.
 
 ## Evening edition — MX 夕方の対応表
 
@@ -389,10 +432,16 @@ anything not thrown tonight waits until the next Japanese working day.
 **Labels.** Same rules as Step 1b, applied to today's sent mail; release
 threads that were answered during the day. Never set `00_催促済み`.
 
+**リマインド (evening).** Use Step 1d with the same definition, plus rows whose
+期日 is **tomorrow** (「明日の期日」), so the owner can prepare tonight. Show them
+in a「リマインド」 section right after the header notes. Anything 担当 = 本社 or
+a 条件 that needs head office tonight also becomes a `今夜投げる` row as usual.
+
 **Report.** The evening artifact link, the three counts, and the
 `今夜投げる` rows as one line each — that list is the owner's checklist for
-tonight. Plus the one-line Notion notice from Step 1c if the connector was
-missing. Nothing else.
+tonight. Plus one line with the reminder counts (今日／明日／超過) and the
+items' names, and the one-line Notion notice from Step 1c if the connector
+was missing. Nothing else.
 
 ## Boundaries
 
@@ -401,7 +450,7 @@ missing. Nothing else.
 - The only mailbox changes this skill makes are `00_返信待ち` labelling and
   release, exactly as described in Step 1b. It never sets `00_催促済み`,
   never archives, never trashes, never touches any other label.
-- Notion is read-only for this skill (Step 1c). No page, comment or
+- Notion is read-only for this skill (Steps 1c and 1d). No page, comment or
   database write, ever.
 - Don't invent urgency or a business-day count that is not in the engine
   output.
